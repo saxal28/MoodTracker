@@ -4,28 +4,35 @@ import {
     Text, 
     Button, 
     Container, 
-    H1,
-    H2,
-    H3,
+    Form,
+    Item,
+    Input,
+    Label
  } from 'native-base';
-import { Title, Card, CardSection } from "./common";
+import { Title, Subtitle, Card, CardSection } from "./common";
 
 const Login = () => {
-    const { cardSectionStyle, containerStyle } = style;
+    const { cardSectionStyle, containerStyle, inputStyle, subtitleStyle } = style;
     return (
         <Container style={containerStyle}>
             <Card>
                 <CardSection>
-                    <Title>Tracker</Title>
-                    <H3>This is the login page</H3>
+                    <Title>Login</Title>
+                    <Subtitle style={subtitleStyle}>You can also create an account here!</Subtitle>
                 </CardSection>
 
-                <CardSection styles={cardSectionStyle}>
-                    <Button full style={{marginBottom: 10}}>
-                        <Text>Login</Text>
-                    </Button>
+                <CardSection>
+                    <Item underline>
+                        <Input placeholder="username" />
+                    </Item>
+                    <Item underline>
+                        <Input placeholder="password" secureTextEntry/>
+                    </Item>
+                </CardSection>
+
+                <CardSection style={cardSectionStyle}>
                      <Button full>
-                        <Text>Register</Text>
+                        <Text>Login</Text>
                     </Button>
                 </CardSection>
             </Card>
@@ -42,6 +49,12 @@ const style = {
     },
     containerStyle: {
         flexDirection: 'row'
+    },
+    inputStyle: {
+        marginTop: 15
+    },
+    subtitleStyle: {
+        fontSize: 17
     }
 }
 
