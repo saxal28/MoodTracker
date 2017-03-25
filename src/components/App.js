@@ -5,6 +5,10 @@ import { Title } from "./common";
 import scenes from "./Routes";
 import { Router } from "react-native-router-flux";
 import firebase from "firebase";
+import { createStore, applyMiddleware } from 'redux';
+import { Provider } from "react-redux";
+import ReduxThunk from "redux-thunk";
+import reducers from "../reducers";
 
 class App extends Component {
 
@@ -21,10 +25,13 @@ class App extends Component {
     }
 
     render() {
+        const store = createStore(reducers, applyMiddleware(ReduxThunk));
         return (
-            <Container>
-                <Router scenes={scenes} />
-            </Container>
+            <Provider store={store}>
+                <Container>
+                    <Router scenes={scenes} />
+                </Container>
+            </Provider>
         )
     }
 }

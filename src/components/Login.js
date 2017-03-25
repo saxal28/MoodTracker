@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { View } from 'react-native';
 import { 
     Text, 
@@ -10,34 +10,39 @@ import {
     Label
  } from 'native-base';
 import { Title, Subtitle, Card, CardSection } from "./common";
+import { connect } from 'react-redux';
 
-const Login = () => {
-    const { cardSectionStyle, containerStyle, inputStyle, subtitleStyle } = style;
-    return (
-        <Container style={containerStyle}>
-            <Card>
-                <CardSection>
-                    <Title>Login</Title>
-                    <Subtitle style={subtitleStyle}>You can also create an account here!</Subtitle>
-                </CardSection>
+class Login extends Component {
+    render() {
+        const { cardSectionStyle, containerStyle, inputStyle, subtitleStyle } = style;
+        //test for redux
+        console.log(this.props);
+        return (
+            <Container style={containerStyle}>
+                <Card>
+                    <CardSection>
+                        <Title>Login</Title>
+                        <Subtitle style={subtitleStyle}>You can also create an account here!</Subtitle>
+                    </CardSection>
 
-                <CardSection>
-                    <Item underline>
-                        <Input placeholder="username" />
-                    </Item>
-                    <Item underline>
-                        <Input placeholder="password" secureTextEntry/>
-                    </Item>
-                </CardSection>
+                    <CardSection>
+                        <Item underline>
+                            <Input placeholder="username" />
+                        </Item>
+                        <Item underline>
+                            <Input placeholder="password" secureTextEntry/>
+                        </Item>
+                    </CardSection>
 
-                <CardSection style={cardSectionStyle}>
-                     <Button full>
-                        <Text>Login</Text>
-                    </Button>
-                </CardSection>
-            </Card>
-        </Container>
-    )
+                    <CardSection style={cardSectionStyle}>
+                        <Button full>
+                            <Text>Login</Text>
+                        </Button>
+                    </CardSection>
+                </Card>
+            </Container>
+        )
+    }
 }
 
 const style = {
@@ -58,4 +63,10 @@ const style = {
     }
 }
 
-export default Login;
+const mapStateToProps = state => {
+    return {
+        reduxStore: state
+    }
+}
+
+export default connect(mapStateToProps, null)(Login);
