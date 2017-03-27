@@ -11,12 +11,43 @@ import {
  } from 'native-base';
 import { Title, Subtitle, Card, CardSection } from "./common";
 import { connect } from 'react-redux';
+import { Actions } from "react-native-router-flux";
+import { emailChanged, passwordChanged, loginUser } from "../actions";
+import firebase from "firebase";
 
 class Login extends Component {
+
+    state = { email: "", password: ""};
+
+    handleLogin(email, password) {
+        this.props.loginUser(email, password);
+    }
+
+    handleEmailChange(e) {
+        this.props.emailChanged(e);
+    }
+
+    handlePasswordChange(e) {
+        this.props.passwordChanged(e);
+    }
+
+    showLoginError() {
+        if(this.props.error) {
+            return (
+                <CardSection>
+                    <Text style={style.errorStyle}>{this.props.error}</Text>
+                </CardSection>
+            )
+        }
+    }
+
     render() {
-        const { cardSectionStyle, containerStyle, inputStyle, subtitleStyle } = style;
+        const { cardSectionStyle, containerStyle, inputStyle, subtitleStyle, errorStyle } = style;
+        const { email, password, user } = this.props;
         //test for redux
-        console.log(this.props);
+        console.log(`email: ${email}`);
+        console.log(`password: ${password}`);
+        console.log(`user ${user}`);
         return (
             <Container style={containerStyle}>
                 <Card>
@@ -27,15 +58,25 @@ class Login extends Component {
 
                     <CardSection>
                         <Item underline>
-                            <Input placeholder="username" />
+                            <Input 
+                                value={email}
+                                placeholder="email" 
+                                onChangeText={this.handleEmailChange.bind(this)}/>
                         </Item>
                         <Item underline>
-                            <Input placeholder="password" secureTextEntry/>
+                            <Input 
+                                value={password}
+                                placeholder="password" 
+                                secureTextEntry
+                                onChangeText={this.handlePasswordChange.bind(this)}
+                                />
                         </Item>
                     </CardSection>
 
+                    {this.showLoginError()}
+
                     <CardSection style={cardSectionStyle}>
-                        <Button full>
+                        <Button full onPress={() => this.handleLogin(email, password)}>
                             <Text>Login</Text>
                         </Button>
                     </CardSection>
@@ -60,13 +101,15 @@ const style = {
     },
     subtitleStyle: {
         fontSize: 17
+    },
+    errorStyle: {
+        color: "red"
     }
 }
 
 const mapStateToProps = state => {
-    return {
-        reduxStore: state
-    }
+    const { email, password, user, error } = state.auth;
+    return { email, password, user, error }
 }
 
-export default connect(mapStateToProps, null)(Login);
+export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(Login);
