@@ -15,12 +15,19 @@ import firebase from "firebase";
 
 class Login extends Component {
 
+    componentWillMount(){
+        const user = firebase.auth().currentUser;
+        if (user) {
+            Actions.main();
+        }
+    }
+
     state = { email: "", password: ""};
 
-    // componentWillMount() { Actions.main() }
-
     handleLogin(email, password) { this.props.loginUser(email, password); }
+
     handleEmailChange(e) { this.props.emailChanged(e); }
+
     handlePasswordChange(e) { this.props.passwordChanged(e); }
 
     showLoginError() {
