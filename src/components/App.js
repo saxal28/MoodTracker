@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Button, Content, Text } from "native-base";
-import { View } from 'react-native';
+import { View, AsyncStorage } from 'react-native';
 import { Title } from "./common";
 import scenes from "./Routes";
 import { Router } from "react-native-router-flux";

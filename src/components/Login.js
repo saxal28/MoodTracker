@@ -4,10 +4,8 @@ import {
     Text, 
     Button, 
     Container, 
-    Form,
     Item,
     Input,
-    Label
  } from 'native-base';
 import { Title, Subtitle, Card, CardSection } from "./common";
 import { connect } from 'react-redux';
@@ -19,17 +17,11 @@ class Login extends Component {
 
     state = { email: "", password: ""};
 
-    handleLogin(email, password) {
-        this.props.loginUser(email, password);
-    }
+    // componentWillMount() { Actions.main() }
 
-    handleEmailChange(e) {
-        this.props.emailChanged(e);
-    }
-
-    handlePasswordChange(e) {
-        this.props.passwordChanged(e);
-    }
+    handleLogin(email, password) { this.props.loginUser(email, password); }
+    handleEmailChange(e) { this.props.emailChanged(e); }
+    handlePasswordChange(e) { this.props.passwordChanged(e); }
 
     showLoginError() {
         if(this.props.error) {
@@ -44,10 +36,6 @@ class Login extends Component {
     render() {
         const { cardSectionStyle, containerStyle, inputStyle, subtitleStyle, errorStyle } = style;
         const { email, password, user } = this.props;
-        //test for redux
-        console.log(`email: ${email}`);
-        console.log(`password: ${password}`);
-        console.log(`user ${user}`);
         return (
             <Container style={containerStyle}>
                 <Card>

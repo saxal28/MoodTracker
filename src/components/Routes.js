@@ -2,6 +2,7 @@ import React from "react";
 import { Actions, Scene } from "react-native-router-flux";
 import StartScreen from "./StartScreen";
 import Login from "./Login";
+import LogDailyValues from "./LogDailyValues";
 import Home from "./Home";
 
 const scenes = Actions.create(
@@ -11,6 +12,7 @@ const scenes = Actions.create(
             <Scene key="login" component={Login} hideNavBar={false}/>
         </Scene>
         <Scene key="main">
+            <Scene key="logDailyValues" component={LogDailyValues}  hideNavBar/>
             <Scene key="home" component={Home} title="Home" />
         </Scene>
     </Scene>

@@ -1,18 +1,18 @@
 import React from "react";
 import { View, Text} from 'react-native';
 
-const Title = ({ children }) => {
-    const { textStyle } = style;
+const Title = ({ children, style }) => {
+    const { textStyle } = styles;
     return (
         <View>
-            <Text style={textStyle}>
+            <Text style={[textStyle, style]}>
                 {children}
             </Text>
         </View>
     )
 }
 
-const style = {
+const styles = {
     textStyle: {
         fontSize: 35,
         fontWeight: 'bold',

@@ -32,6 +32,7 @@ export const loginUser = (email, password) => {
         .then(user => loginSuccess(dispatch, user))
      //if user doesnt exist, create user
         .catch((e) => {
+            console.log(e)
             firebase.auth().createUserWithEmailAndPassword(email, password)
                 .then(user => loginSuccess(dispatch, user))
                 .catch(e => {
