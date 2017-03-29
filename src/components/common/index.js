@@ -5,3 +5,4 @@ export * from "./Subtitle";
 export * from "./FooterNav";
 export * from './TabbedNavbar';
 export * from "./Navbar";
+export * from "./ThreeColumnListItem";
