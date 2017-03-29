@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from 'react-native';
+import { View, Image } from 'react-native';
 import { 
     Text, 
     Button, 
@@ -7,7 +7,7 @@ import {
     Item,
     Input,
  } from 'native-base';
-import { Title, Subtitle, Card, CardSection } from "./common";
+import { Title, Subtitle, Card, CardSection, Navbar } from "./common";
 import { connect } from 'react-redux';
 import { Actions } from "react-native-router-flux";
 import { emailChanged, passwordChanged, loginUser } from "../actions";
@@ -45,6 +45,7 @@ class Login extends Component {
         const { email, password, user } = this.props;
         return (
             <Container style={containerStyle}>
+                <Navbar />
                 <Card>
                     <CardSection>
                         <Title>Login</Title>
@@ -89,7 +90,7 @@ const style = {
         right: 0,
     },
     containerStyle: {
-        flexDirection: 'row'
+        
     },
     inputStyle: {
         marginTop: 15

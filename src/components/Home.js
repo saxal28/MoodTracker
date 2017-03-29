@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Container } from "native-base";
-import { Card, CardSection } from './common';
-import { Text } from "react-native";
+import { Container, Content, Text, ListItem } from "native-base";
+import { Card, CardSection, FooterNav, Navbar } from './common';
 import { connect } from 'react-redux';
 
 class Home extends Component {
@@ -9,11 +8,82 @@ class Home extends Component {
     render() {
         return (
             <Container>
-                <Card>
-                    <CardSection>
-                        <Text>Logged in User: {this.props.user.email}</Text>
-                    </CardSection>
-                 </Card>
+                <Navbar title="Home" subtitle="this is your homepage" />
+                <Content >
+                    <ListItem itemDivider>
+                        <Text>Ideas of what to add....</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Weight</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Emotions</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Trends</Text>
+                    </ListItem>
+                    <ListItem itemDivider>
+                        <Text>Ideas of what to add....</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Weight</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Emotions</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Trends</Text>
+                    </ListItem>
+                    <ListItem itemDivider>
+                        <Text>Ideas of what to add....</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Weight</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Emotions</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Trends</Text>
+                    </ListItem>
+                    <ListItem itemDivider>
+                        <Text>Ideas of what to add....</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Weight</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Emotions</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Trends</Text>
+                    </ListItem>
+                    <ListItem itemDivider>
+                        <Text>Ideas of what to add....</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Weight</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Emotions</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Trends</Text>
+                    </ListItem>
+                    <ListItem itemDivider>
+                        <Text>Ideas of what to add....</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Weight</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Emotions</Text>
+                    </ListItem>
+                    <ListItem>
+                        <Text>Trends</Text>
+                    </ListItem>
+                 </Content>
+                 <FooterNav homeActive />
             </Container>
         )
     }

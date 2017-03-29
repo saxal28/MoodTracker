@@ -10,8 +10,16 @@ import {
  } from 'native-base';
 import { Title, Subtitle, Card, CardSection } from "./common";
 import  { Actions } from "react-native-router-flux";
+import firebase from 'firebase';
 
 class StartScreen extends Component {
+    
+    componentWillMount(){
+        const user = firebase.auth().currentUser;
+        if (user) {
+            Actions.main();
+        }
+    }
 
     handleLoginPress() {
         Actions.login();
