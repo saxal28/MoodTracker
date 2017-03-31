@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { TabbedNavbar, FooterNav, ThreeColumnListItem } from "./common";
+import { TabbedNavbar, FooterNav, ThreeColumnListItem, LineChart } from "./common";
 import { Container, Content, Text, Button, Tab, ListItem, Grid, Col, Icon } from 'native-base';
 import { Actions } from "react-native-router-flux";
-import { daysArr, monthsArr, formatFullDate, fakeData } from "../util";
+import { days, months, daysArr, formatFullDate, fakeData, sortData, findAverage } from "../util";
+import { View } from 'react-native';
 
-
-
+//for testing
 class Weight extends Component {
+
 
     renderWeightData() {
         return fakeData.map((data, index) => {
@@ -20,21 +21,43 @@ class Weight extends Component {
         });
     }
 
+    renderTenDayWeightData() {
+        let counter = 0;
+        return fakeData.map((data, index) => {
+            if(counter < 10) {
+                counter += 1;
+                 return (
+                    <ThreeColumnListItem 
+                        key={index}
+                        col1={formatFullDate(data.date)}
+                        col3={data.weight}
+                    />
+                );
+            }
+        });
+    }
+
     render() {
-        console.log(daysArr, monthsArr)
+        sortData(fakeData);
+        const firstTenDays = fakeData.slice(0,9); //for testing
         return (
             <Container>
                <TabbedNavbar title="Weight Stats">
 
-                   <Tab heading="This Week">
+                   <Tab heading="Past 10 Days">
+                       <ThreeColumnListItem 
+                            bold
+                            col1="Date"
+                            col3="Weight"
+                         />
                         <Content>
-                            {this.renderWeightData()}
+                            {this.renderTenDayWeightData()}
                         </Content>
                     </Tab>
 
                     <Tab heading="Trend">
-                        <Content>
-                            {this.renderWeightData()}
+                        <Content contentContainerStyle={{alignSelf: "center", justifyContent: "center"}}>
+                           <LineChart data={firstTenDays} y="weight"/>
                         </Content>
                     </Tab>
 

@@ -2,7 +2,7 @@
 // date | formatting, data structures...etc
 //===========================================
 
-const daysArr = {
+const days = {
     0: "Sun",
     1: "Mon",
     2: "Tue",
@@ -12,7 +12,17 @@ const daysArr = {
     6: "Sat"
 };
 
-const monthsArr = {
+const daysArr = [
+    "Sun",
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thr",
+    "Fri",
+    "Sat"
+];
+
+const months = {
     0: "Jan",
     1: "Feb",
     2: "Mar",
@@ -29,7 +39,7 @@ const monthsArr = {
 
 // Jan 12
 const formatFullDate =  (date) => {
-    const month = monthsArr[date.getMonth()];
+    const month = months[date.getMonth()];
     const day = date.getDate();
     return `${month} ${day}`;
 }
@@ -49,12 +59,34 @@ const fakeData = [
   {date: new Date(2017, 11, 8), weight: 187, mood: "happy"},
   {date: new Date(2017, 11, 9), weight: 186, mood: "happy"},
   {date: new Date(2017, 11, 10), weight: 184, mood: "sad"},
+  {date: new Date(2017, 11, 11), weight: 184, mood: "sad"},
+  {date: new Date(2017, 11, 12), weight: 184, mood: "sad"},
+  {date: new Date(2017, 11, 13), weight: 181, mood: "sad"},
+  {date: new Date(2017, 11, 14), weight: 181, mood: "confident"},
+  {date: new Date(2017, 11, 15), weight: 180.5, mood: "axious"},
+  {date: new Date(2017, 11, 16), weight: 180, mood: "depressed"},
+  {date: new Date(2017, 11, 17), weight: 179, mood: "happy"},
+  {date: new Date(2017, 11, 18), weight: 179, mood: "happy"},
+  {date: new Date(2017, 11, 19), weight: 179, mood: "happy"},
+  {date: new Date(2017, 11, 20), weight: 179, mood: "sad"},
   ];
+
+  const sortData = (data) => {
+        return data.sort((a, b) => {
+            return new Date(b.date) - new Date(a.date);
+        });
+  };
+
+  const findAverage = (data) => {
+        let sum = 0;
+        data.forEach(data => sum += data.weight);
+        return sum / data.length;
+  }
 
 
 //===================================
 // EXPORT
 //===================================
 
-export { daysArr, monthsArr, formatFullDate, fakeData };
+export { days, daysArr, months, formatFullDate, fakeData, sortData, findAverage };
 

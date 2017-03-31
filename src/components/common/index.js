@@ -6,3 +6,4 @@ export * from "./FooterNav";
 export * from './TabbedNavbar';
 export * from "./Navbar";
 export * from "./ThreeColumnListItem";
+export * from "./LineChart";
