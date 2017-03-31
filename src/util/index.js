@@ -83,10 +83,27 @@ const fakeData = [
         return sum / data.length;
   }
 
+  const generateRange = (a, b) => {
+      let arr = [];
+      for(var i = a; i < b; i++) {
+          arr.push(i);
+      }
+      return arr;
+  }
+
 
 //===================================
 // EXPORT
 //===================================
 
-export { days, daysArr, months, formatFullDate, fakeData, sortData, findAverage };
+export { 
+    days, 
+    daysArr, 
+    months, 
+    formatFullDate, 
+    fakeData, 
+    sortData, 
+    findAverage, 
+    generateRange 
+};
 

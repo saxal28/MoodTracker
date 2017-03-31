@@ -5,7 +5,6 @@ import { Actions } from "react-native-router-flux";
 import { days, months, daysArr, formatFullDate, fakeData, sortData, findAverage } from "../util";
 import { View } from 'react-native';
 
-//for testing
 class Weight extends Component {
 
     renderWeightData() {

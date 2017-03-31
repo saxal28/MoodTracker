@@ -7,25 +7,40 @@ import {
     Container, 
     Item,
     Input,
-    Icon
+    Icon,
+    Grid,
+    Col,
+    Row
  } from 'native-base';
 
  import { View, Picker } from "react-native";
  import { Actions } from "react-native-router-flux";
+ import { generateRange } from "../util";
 
 class LogDailyValues extends Component {
 
-    state = { values: [], selectedEmotion: "Select", error: "", weight: "", emotion: "" };
+    state = { values: [], error: "", weight: 150, emotion: "" };
 
     renderDate() {
         var date = new Date();
         return `${date.getMonth() + 1 }/${date.getDate()}/${date.getFullYear()}`;
     }
 
-    onValueChange(e) { this.setState({emotion: e}); }
+    onEmotionChange(e) { this.setState({emotion: e}); }
+    onWeightChange(e) { this.setState({weight: e}); }
 
     handleLogButtonPress() {
         Actions.home({type: "reset"});
+    }
+
+    generatePickerWeights() {
+        const arr = generateRange(100, 400);
+        
+        return arr.map(num => {
+            return (
+                 <Picker.Item label={String(num)} value={num} key={num} />
+            )
+        })
     }
 
     renderEmotionIcon() {
@@ -35,7 +50,7 @@ class LogDailyValues extends Component {
                 <Icon name={emotions[emotion].icon} style={emotions[emotion].styles} />
             )
         }
-        return <Icon name="happy" style={{fontSize: 70, fontWeight: 'bold'}} />
+        return <Icon name="happy" style={{fontSize: 100, fontWeight: 'bold'}} />
     }
 
     render() {
@@ -46,34 +61,34 @@ class LogDailyValues extends Component {
                     <CardSection style={{padding: 0, marginBottom: 0, marginTop: 0}}>
                         {/*<Title>Check In!</Title>*/}
                         {this.renderEmotionIcon()}
+                        <Title>{`${this.state.weight} lbs`}</Title>
                     </CardSection>
 
-                    <CardSection style={{paddingTop: 10, marginBottom: 0, marginTop: 0}}>
-                        <Item regular>
-                            <Input 
-                                onChangeText={(e) => this.setState({weight: e})}
-                                placeholder="Weight"
-                                value={this.state.weight}
-                                success={true}
-                                style={{fontSize: 25}}
-                            />
-                            <Icon 
-                                style={styles.iconStyle} 
-                                name={this.state.weight ? "checkmark" : "close"} />
-                        </Item>
-                        <Picker
-                            style={{ height: 70, width: 170, marginTop: 0, paddingTop: 0 }}
-                            onValueChange={this.onValueChange.bind(this)}
-                            selectedValue={this.state.emotion}
-                        >
-                            <Picker.Item label="Happy" value="happy" />
-                            <Picker.Item label="Sad" value="sad"/>
-                            <Picker.Item label="Anxious" value="anxious" />
-                            <Picker.Item label="Confident" value="confident" />
-                            <Picker.Item label="Depressed" value="depressed" />
-                        </Picker>
-                    </CardSection>
-
+                    <Grid>
+                        <Col>
+                            <Picker
+                                style={{ height: 100, marginTop: 0, paddingTop: 0, minWidth: 150}}
+                                onValueChange={this.onWeightChange.bind(this)}
+                                selectedValue={this.state.weight}
+                            >
+                                {this.generatePickerWeights()}
+                            </Picker>
+                        </Col>
+                        <Col>
+                            <Picker
+                                style={{ height: 100, marginTop: 0, paddingTop: 0, minWidth: 150}}
+                                onValueChange={this.onEmotionChange.bind(this)}
+                                selectedValue={this.state.emotion}
+                            >
+                                <Picker.Item label="Happy" value="happy" />
+                                <Picker.Item label="Sad" value="sad"/>
+                                <Picker.Item label="Anxious" value="anxious" />
+                                <Picker.Item label="Confident" value="confident" />
+                                <Picker.Item label="Depressed" value="depressed" />
+                            </Picker>
+                        </Col>
+                    </Grid>
+                        
                     <CardSection style={styles.emotionContainerStyle}>
                         {/*{this.renderEmotions()}*/}
                         <Button 
@@ -117,7 +132,7 @@ const emotions = {
     happy : {
         styles: {
             color: "green",
-            fontSize:  70,
+            fontSize:  100,
             fontWeight: 'bold'
         },
         icon: "happy"  
@@ -125,7 +140,7 @@ const emotions = {
     sad: { 
         styles: {
             color: "red",
-            fontSize:  70,
+            fontSize:  100,
             fontWeight: 'bold'
         },
         icon: "sad"
@@ -134,7 +149,7 @@ const emotions = {
     anxious: {
         styles: {
             color: "orange",
-            fontSize:  70,
+            fontSize:  100,
             fontWeight: 'bold'
         },
         icon: "sad"
@@ -143,7 +158,7 @@ const emotions = {
     confident: {
         styles: {
             color: "lime",
-            fontSize:  70,
+            fontSize:  100,
             fontWeight: 'bold'
         },
         icon: "happy"
@@ -151,7 +166,7 @@ const emotions = {
     depressed: {
         styles: {
             color: "blue",
-            fontSize:  70,
+            fontSize:  100,
             fontWeight: 'bold'
         },
         icon: "sad"
