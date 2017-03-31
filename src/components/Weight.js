@@ -8,7 +8,6 @@ import { View } from 'react-native';
 //for testing
 class Weight extends Component {
 
-
     renderWeightData() {
         return fakeData.map((data, index) => {
             return (

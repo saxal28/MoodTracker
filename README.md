@@ -12,4 +12,8 @@ I'm creating this app for 2 reaosns:
   
 # Screenshots of App in Development
 
-![alt text]( https://github.com/saxal28/MoodTracker/blob/master/Pictures_Of_App_ThrougH_Development/Screen%20Shot%202017-03-30%20at%208.00.37%20PM.png "Screenshot 1")
+![alt text]( https://github.com/saxal28/MoodTracker/blob/master/Pictures_Of_App_ThrougH_Development/Screen%20Shot%202017-03-30%20at%208.34.06%20PM.png "Screenshot 1")
+
+![alt text]( https://github.com/saxal28/MoodTracker/blob/master/Pictures_Of_App_ThrougH_Development/Screen%20Shot%202017-03-30%20at%208.34.40%20PM.png "Screenshot 2")
+
+![alt text]( https://github.com/saxal28/MoodTracker/blob/master/Pictures_Of_App_ThrougH_Development/Screen%20Shot%202017-03-30%20at%208.00.37%20PM.png "Screenshot 3")
