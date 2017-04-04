@@ -8,12 +8,14 @@ import { View } from 'react-native';
 class Weight extends Component {
 
     renderWeightData() {
+        // 185 is the average of the previous 10 days
         return fakeData.map((data, index) => {
             return (
                 <ThreeColumnListItem 
                     key={index}
                     col1={formatFullDate(data.date)}
-                    col3={data.weight}
+                    col2={data.weight}
+                    col3={(data.weight - 185).toFixed(1)}
                 />
             );
         });
@@ -28,7 +30,8 @@ class Weight extends Component {
                     <ThreeColumnListItem 
                         key={index}
                         col1={formatFullDate(data.date)}
-                        col3={data.weight}
+                        col2={data.weight}
+                        col3={(data.weight - 185).toFixed(1)}
                     />
                 );
             }
@@ -38,15 +41,18 @@ class Weight extends Component {
     render() {
         sortData(fakeData);
         const firstTenDays = fakeData.slice(0,9); //for testing
+        const firstMonth = fakeData.slice(0,29); // for testing
+        const threeMonths = fakeData.slice(0,89); //for testing
         return (
             <Container>
-               <TabbedNavbar title="Weight Stats">
+               <TabbedNavbar title="Weight">
 
                    <Tab heading="Past 10 Days">
                        <ThreeColumnListItem 
                             bold
                             col1="Date"
-                            col3="Weight"
+                            col2="Weight"
+                            col3="Last Week"
                          />
                         <Content>
                             {this.renderTenDayWeightData()}
@@ -55,7 +61,30 @@ class Weight extends Component {
 
                     <Tab heading="Trend">
                         <Content contentContainerStyle={{alignSelf: "center", justifyContent: "center"}}>
+                            <ThreeColumnListItem 
+                                bold
+                                col2="Past 10 Days"
+                            />
                            <LineChart data={firstTenDays} y="weight"/>
+
+                            <ThreeColumnListItem 
+                                bold
+                                col2="Past 30 Days"
+                            />
+                           <LineChart data={firstMonth} y="weight"/>
+
+                           <ThreeColumnListItem 
+                                bold
+                                col2="Past 90 Days"
+                            />
+                           <LineChart data={threeMonths} y="weight"/>
+
+                           <ThreeColumnListItem 
+                                bold
+                                col2="All"
+                            />
+                           <LineChart data={fakeData} y="weight"/>
+
                         </Content>
                     </Tab>
 
@@ -63,7 +92,8 @@ class Weight extends Component {
                         <ThreeColumnListItem 
                             bold
                             col1="Date"
-                            col3="Weight"
+                            col2="Weight"
+                            col3="Last Week"
                          />
                         <Content>
                             {this.renderWeightData()}

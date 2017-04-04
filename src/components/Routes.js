@@ -7,6 +7,7 @@ import Home from "./Home";
 import Weight from "./Weight";
 import Emotions from "./Emotions";
 import Trends from "./Trends";
+import Strength from "./Strength";
 
 const scenes = Actions.create(
     <Scene key="app">

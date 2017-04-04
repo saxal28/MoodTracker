@@ -16,10 +16,19 @@ import {
  import { View, Picker } from "react-native";
  import { Actions } from "react-native-router-flux";
  import { generateRange } from "../util";
+ import { saveStats, getStats } from '../actions/userActions'
+ import { connect } from "react-redux";
 
 class LogDailyValues extends Component {
 
-    state = { values: [], error: "", weight: 150, emotion: "" };
+    state = { 
+        values: [], 
+        error: "", 
+        weight: 150, 
+        emotion: "happy", 
+        edit: false,
+        date: null
+    };
 
     renderDate() {
         var date = new Date();
@@ -30,7 +39,10 @@ class LogDailyValues extends Component {
     onWeightChange(e) { this.setState({weight: e}); }
 
     handleLogButtonPress() {
-        Actions.home({type: "reset"});
+        var date = new Date();
+        const { weight, emotion } = this.state;
+        // dispatch params to redux via action creator
+        this.props.saveStats(weight, emotion, date);
     }
 
     generatePickerWeights() {
@@ -54,12 +66,12 @@ class LogDailyValues extends Component {
     }
 
     render() {
+        console.log(this.props.user)
         return (
             <Container>
                 <Navbar title="Log Today's Stats" />
                 <Card>
                     <CardSection style={{padding: 0, marginBottom: 0, marginTop: 0}}>
-                        {/*<Title>Check In!</Title>*/}
                         {this.renderEmotionIcon()}
                         <Title>{`${this.state.weight} lbs`}</Title>
                     </CardSection>
@@ -173,4 +185,9 @@ const emotions = {
     }
 }
 
-export default LogDailyValues;
+const mapStateToProps = state => {
+    const { user } = state;
+    return { user }
+}
+
+export default connect(mapStateToProps, {saveStats, getStats})(LogDailyValues);

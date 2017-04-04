@@ -9,7 +9,6 @@ const Navbar = ({title, subtitle}) => {
         >
             <Body>
                 <Title style={{color:'white'}}>{title}</Title>
-                <Subtitle style={{color:'white'}}>{subtitle}</Subtitle>
             </Body>
         </Header>
     )

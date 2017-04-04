@@ -67,8 +67,12 @@ const fakeData = [
   {date: new Date(2017, 11, 16), weight: 180, mood: "depressed"},
   {date: new Date(2017, 11, 17), weight: 179, mood: "happy"},
   {date: new Date(2017, 11, 18), weight: 179, mood: "happy"},
-  {date: new Date(2017, 11, 19), weight: 179, mood: "happy"},
-  {date: new Date(2017, 11, 20), weight: 179, mood: "sad"},
+  {date: new Date(2017, 11, 19), weight: 177, mood: "happy"},
+  {date: new Date(2017, 11, 20), weight: 176, mood: "sad"},
+  {date: new Date(2017, 11, 22), weight: 180, mood: "happy"},
+  {date: new Date(2017, 11, 23), weight: 181, mood: "happy"},
+  {date: new Date(2017, 11, 24), weight: 186, mood: "happy"},
+  {date: new Date(2017, 11, 25), weight: 180, mood: "sad"},
   ];
 
   const sortData = (data) => {
@@ -91,6 +95,20 @@ const fakeData = [
       return arr;
   }
 
+//purpose is to count the moods in data object to render piechart
+  const countEmotions = data => {
+        var emotionCount = [
+            { mood: "happy",     value: 0 },
+            { mood: "sad",       value: 0 },
+            { mood: "anxious",   value: 0 },
+            { mood: "confident", value: 0 },
+            { mood: "depressed", value: 0 },
+        ];
+
+        data.forEach(obj =>  emotionCount[obj.mood] += 1 );
+        return emotionCount;
+    }
+
 
 //===================================
 // EXPORT
@@ -104,6 +122,7 @@ export {
     fakeData, 
     sortData, 
     findAverage, 
-    generateRange 
+    generateRange,
+    countEmotions
 };
 

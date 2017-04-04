@@ -28,8 +28,8 @@ const FooterNav = ({ homeActive, weightActive, emotionsActive, trendsActive }) =
                 <Button 
                     onPress={() => Actions.trends()}
                     active={trendsActive}>
-                    <Icon name="podium" active={trendsActive}/>
-                    <Text>Trends</Text>
+                    <Icon name="trophy" active={trendsActive}/>
+                    <Text>Strength</Text>
                 </Button>
                       </FooterTab>
                  </Footer>
