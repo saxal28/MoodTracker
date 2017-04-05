@@ -10,20 +10,20 @@ class Home extends Component {
 
     state = { active: true, user: "" };
 
-    componentWillMount() {
-        let user = firebase.auth().currentUser;
-        console.log(this.props.getStats())
-        
-    }
-
     componentDidMount() {
+        let user = firebase.auth().currentUser;
         this.setState({ active: false })
     }
 
     render() {
+        console.log(this.props.user);
         return (
             <Container>
-                <Navbar title="Home" />
+                <Navbar 
+                    title="Home" 
+                    leftButton
+                    leftButton={() => Actions.logDailyValues()}
+                />
                 <View style={{flex: 1 }}>
                     <Card>
                         <CardSection>
@@ -47,7 +47,7 @@ class Home extends Component {
                         <Icon name="md-apps" />
                         <Button 
                             style={{ backgroundColor: '#34A34F'}} 
-                            onPress={() => Actions.auth()}
+                            onPress={() => Actions.logDailyValues({visited: true})}
                         >
                             <Icon name="md-add" style={{color:'white'}}/>
                         </Button>
@@ -73,7 +73,7 @@ class Home extends Component {
 
 
 const mapStateToProps = (state) => {
-    const { user } = state.auth;
+    const { user } = state;
     return { user }
 }
 

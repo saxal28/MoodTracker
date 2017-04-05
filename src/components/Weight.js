@@ -4,16 +4,24 @@ import { Container, Content, Text, Button, Tab, ListItem, Grid, Col, Icon } from
 import { Actions } from "react-native-router-flux";
 import { days, months, daysArr, formatFullDate, fakeData, sortData, findAverage } from "../util";
 import { View } from 'react-native';
+import { connect } from "react-redux";
+import { getStats } from "../actions/userActions"
 
 class Weight extends Component {
 
+    componentWillMount(){
+        this.props.getStats();
+        console.log(this.props.allStats);
+    }
+
     renderWeightData() {
+        const { allStats } = this.props;
         // 185 is the average of the previous 10 days
-        return fakeData.map((data, index) => {
+        return allStats.map((data, index) => {
             return (
                 <ThreeColumnListItem 
                     key={index}
-                    col1={formatFullDate(data.date)}
+                    col1={formatFullDate(new Date(data.date))}
                     col2={data.weight}
                     col3={(data.weight - 185).toFixed(1)}
                 />
@@ -22,14 +30,15 @@ class Weight extends Component {
     }
 
     renderTenDayWeightData() {
+        const { allStats } = this.props;
         let counter = 0;
-        return fakeData.map((data, index) => {
+        return allStats.map((data, index) => {
             if(counter < 10) {
                 counter += 1;
                  return (
                     <ThreeColumnListItem 
                         key={index}
-                        col1={formatFullDate(data.date)}
+                        col1={formatFullDate(new Date(data.date))}
                         col2={data.weight}
                         col3={(data.weight - 185).toFixed(1)}
                     />
@@ -39,10 +48,11 @@ class Weight extends Component {
     }
 
     render() {
-        sortData(fakeData);
-        const firstTenDays = fakeData.slice(0,9); //for testing
-        const firstMonth = fakeData.slice(0,29); // for testing
-        const threeMonths = fakeData.slice(0,89); //for testing
+        const { allStats } = this.props;
+        sortData(allStats);
+        const firstTenDays = allStats.slice(0,9); //for testing
+        const firstMonth = allStats.slice(0,29); // for testing
+        const threeMonths = allStats.slice(0,89); //for testing
         return (
             <Container>
                <TabbedNavbar title="Weight">
@@ -83,7 +93,7 @@ class Weight extends Component {
                                 bold
                                 col2="All"
                             />
-                           <LineChart data={fakeData} y="weight"/>
+                           <LineChart data={allStats} y="weight"/>
 
                         </Content>
                     </Tab>
@@ -107,4 +117,9 @@ class Weight extends Component {
     }
 }
 
-export default Weight;
+const mapStateToProps = (state) => {
+    const { allStats } = state.user;
+    return { allStats }
+}
+
+export default connect(mapStateToProps, {getStats})(Weight) ;

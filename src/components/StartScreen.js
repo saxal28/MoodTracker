@@ -13,16 +13,35 @@ import  { Actions } from "react-native-router-flux";
 import firebase from 'firebase';
 
 class StartScreen extends Component {
+
+    state = { user: null };
     
-    componentWillMount(){
+    componentDidMount(){
         const user = firebase.auth().currentUser;
-        if (user) {
-            Actions.main();
-        }
+        this.setState({user});
     }
 
     handleLoginPress() {
         Actions.login();
+    }
+
+    handleRegisterPress() {
+
+    }
+
+    renderButtons() {
+        if(this.state.user) {
+            return (
+                <Button full>
+                    <Text>Register</Text>
+                </Button>
+            )
+        } 
+        return (
+             <Button full style={{marginBottom: 10}} onPress={this.handleLoginPress.bind(this)}>
+                <Text>Login</Text>
+            </Button>
+        )
     }
     
     render() {
@@ -36,12 +55,7 @@ class StartScreen extends Component {
                     </CardSection>
 
                     <CardSection style={cardSectionStyle}>
-                        <Button full style={{marginBottom: 10}} onPress={this.handleLoginPress.bind(this)}>
-                            <Text>Login</Text>
-                        </Button>
-                        <Button full>
-                            <Text>Register</Text>
-                        </Button>
+                        {this.renderButtons()}
                     </CardSection>
                 </Card>
             </Container>

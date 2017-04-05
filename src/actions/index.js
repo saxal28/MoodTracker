@@ -13,7 +13,7 @@ const loginSuccess = (dispatch, user) => {
         type: LOGIN_SUCCESS,
         payload: user
     });
-    Actions.main();
+    Actions.home();
     // console.log(`loginSuccess:`, user)
 };
 

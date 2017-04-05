@@ -5,3 +5,4 @@ export const LOGIN_FAIL = 'login_fail';
 export const LOGIN = "login";
 
 export const STATS_CREATED = 'stats_created';
+export const GET_ALL_STATS = 'get_all_stats';

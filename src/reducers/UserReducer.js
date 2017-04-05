@@ -1,8 +1,10 @@
-import { STATS_CREATED } from "../actions/types";
+import { STATS_CREATED, GET_ALL_STATS } from "../actions/types";
+import _ from 'lodash';
 
 const INITIAL_STATE = {
+    allStats: [],
     weight: null,
-    mood: null,
+    emotion: null,
     date: null,
     strength: {
         benchPress: null,
@@ -16,7 +18,11 @@ const INITIAL_STATE = {
 const userReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case STATS_CREATED:
-            return { ...state, weight: action.payload }
+            const { weight, emotion, date } = action.payload;
+            return { ...state, weight, emotion, date }
+        case GET_ALL_STATS:
+            let arr = _.values(action.payload);
+            return { ...state, allStats: arr};
         default: 
             return state;
     }

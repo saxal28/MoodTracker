@@ -15,7 +15,7 @@ import {
 
  import { View, Picker } from "react-native";
  import { Actions } from "react-native-router-flux";
- import { generateRange } from "../util";
+ import { generateRange, generateSmallRange, sortData } from "../util";
  import { saveStats, getStats } from '../actions/userActions'
  import { connect } from "react-redux";
 
@@ -27,32 +27,75 @@ class LogDailyValues extends Component {
         weight: 150, 
         emotion: "happy", 
         edit: false,
+        alreadyLogged: false,
         date: null
     };
 
-    renderDate() {
-        var date = new Date();
-        return `${date.getMonth() + 1 }/${date.getDate()}/${date.getFullYear()}`;
+    componentWillMount() {
+        if(this.props.visited) {
+            this.alreadyLogged(this.props);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.alreadyLogged(nextProps);
+    }
+
+    alreadyLogged(nextProps) {
+        const todaysDate = new Date().toString();
+        const { allStats } = nextProps;
+        sortData(allStats);
+        if(allStats.length > 1) {
+             if( todaysDate.substring(0,15) == allStats[0].date.substring(0,15)) {
+                this.setState({alreadyLogged: true, weight:allStats[0].weight, emotion: allStats[0].emotion });
+            }
+        }
     }
 
     onEmotionChange(e) { this.setState({emotion: e}); }
     onWeightChange(e) { this.setState({weight: e}); }
 
     handleLogButtonPress() {
-        var date = new Date();
+        const date = this.state.date ? this.state.date.toString() : (new Date()).toString();
         const { weight, emotion } = this.state;
         // dispatch params to redux via action creator
         this.props.saveStats(weight, emotion, date);
     }
 
     generatePickerWeights() {
-        const arr = generateRange(100, 400);
+        let min = this.state.weight - 10;
+        let max = this.state.weight + 10;
+        var arr = generateSmallRange(min, max);
+        // var arr = arr = generateRange(100,400);
         
         return arr.map(num => {
             return (
                  <Picker.Item label={String(num)} value={num} key={num} />
             )
         })
+    }
+
+    renderButton() {
+        if(this.state.alreadyLogged) {
+            return (
+                 <Button 
+                    full
+                    style={{flex: 1, backgroundColor: "orange"}}
+                    onPress={this.handleLogButtonPress.bind(this)}
+                >
+                    <Text>Update Log</Text>
+                </Button>                
+            )
+        }
+        return (
+             <Button 
+                full 
+                style={{flex: 1}}
+                onPress={this.handleLogButtonPress.bind(this)}
+            >
+                <Text>Check In!</Text>
+            </Button>
+        )
     }
 
     renderEmotionIcon() {
@@ -66,14 +109,16 @@ class LogDailyValues extends Component {
     }
 
     render() {
-        console.log(this.props.user)
+        const { alreadyLogged } = this.state;
+        console.log(alreadyLogged)
         return (
             <Container>
-                <Navbar title="Log Today's Stats" />
+                <Navbar title={alreadyLogged ? "Edit!" : "Log!"}  disableMenuButton />
                 <Card>
                     <CardSection style={{padding: 0, marginBottom: 0, marginTop: 0}}>
                         {this.renderEmotionIcon()}
                         <Title>{`${this.state.weight} lbs`}</Title>
+                        <Text>{ alreadyLogged ? "Already Logged! Scroll to Update!" : "Scroll to Update!" }</Text>
                     </CardSection>
 
                     <Grid>
@@ -102,14 +147,7 @@ class LogDailyValues extends Component {
                     </Grid>
                         
                     <CardSection style={styles.emotionContainerStyle}>
-                        {/*{this.renderEmotions()}*/}
-                        <Button 
-                            full 
-                            style={{flex: 1}}
-                            onPress={this.handleLogButtonPress.bind(this)}
-                        >
-                            <Text>Check In!</Text>
-                        </Button>
+                        {this.renderButton()}
                     </CardSection>             
 
                 </Card>
@@ -187,7 +225,8 @@ const emotions = {
 
 const mapStateToProps = state => {
     const { user } = state;
-    return { user }
+    const { allStats } = state.user;
+    return { user, allStats }
 }
 
 export default connect(mapStateToProps, {saveStats, getStats})(LogDailyValues);

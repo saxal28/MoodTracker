@@ -11,14 +11,16 @@ import { Title, Subtitle, Card, CardSection, Navbar } from "./common";
 import { connect } from 'react-redux';
 import { Actions } from "react-native-router-flux";
 import { emailChanged, passwordChanged, loginUser } from "../actions";
+import { getStats } from "../actions/userActions"
 import firebase from "firebase";
 
 class Login extends Component {
 
     componentWillMount(){
+        this.props.getStats();
         const user = firebase.auth().currentUser;
         if (user) {
-            Actions.main();
+            Actions.logDailyValues();
         }
     }
 
@@ -108,4 +110,4 @@ const mapStateToProps = state => {
     return { email, password, user, error }
 }
 
-export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser })(Login);
+export default connect(mapStateToProps, { emailChanged, passwordChanged, loginUser, getStats })(Login);

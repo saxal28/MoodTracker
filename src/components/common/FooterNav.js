@@ -3,7 +3,6 @@ import { Footer, FooterTab, Button, Icon, Text } from "native-base";
 import { Actions } from "react-native-router-flux";
 
 const FooterNav = ({ homeActive, weightActive, emotionsActive, trendsActive }) => {
-    console.log(homeActive, weightActive, trendsActive, emotionsActive)
     return (
         <Footer>
             <FooterTab>
