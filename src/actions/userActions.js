@@ -5,8 +5,7 @@ import {
     GET_ALL_STATS
 } from "./types";
 
-// update weight/mood
-// save initial stats
+// creates stats => weight/mood
 export const saveStats = (weight, emotion, date) => {
     const { currentUser } = firebase.auth();
 
@@ -21,17 +20,30 @@ export const saveStats = (weight, emotion, date) => {
             .catch(e => console.log(e))
 
     };
-}
+};
 
-// export const updateStats = (weight, emotion, date) => {
-//     const { currentUser } = firebase.auth();
+// updates stats => weight/mood
+export const updateStats = (weight, emotion, date, uid) => {
+    const { currentUser } = firebase.auth();
 
-//     return dispatch => {
-//         const statsObj = { weight, emotion, date };
-//         firebase.database().ref(`/users/${}/stats`)
-//     }
-// }
-// get stats => weight/mood
+    return dispatch => {
+        firebase.database().ref(`/users/${currentUser.uid}/stats/${uid}`)
+            .set({
+                weight,
+                emotion,
+                date,
+                uid
+            })
+            .then(() => {
+                console.log("success")
+                dispatch({type: "Uupdate stats"})
+                Actions.home({type: 'reset'})
+            })
+            .catch(e => console.log(e));
+    };
+};
+
+// gets all stats => weight/mood
 export const getStats = () => {
     const { currentUser } = firebase.auth();
 
@@ -40,9 +52,9 @@ export const getStats = () => {
             .on('value', snapshot => {
                 console.log(snapshot.val())
                 dispatch({type: GET_ALL_STATS, payload: snapshot.val()})
-            })
-    }
-}
+            });
+    };
+};
 
 
 //add strength records

@@ -46,6 +46,7 @@ const formatFullDate =  (date) => {
 
 // Tue, Jan 12
 const formatDisplayDate = (date) => {
+    date = new Date(date);
     const month = months[date.getMonth()];
     const day = date.getDate();
     const dayNamed = daysArr[date.getDay()];

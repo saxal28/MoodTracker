@@ -22,7 +22,11 @@ const userReducer = (state = INITIAL_STATE, action) => {
             const { weight, emotion, date } = action.payload;
             return { ...state, weight, emotion, date }
         case GET_ALL_STATS:
-            let arr = _.values(action.payload);
+        
+            let arr = _.map(action.payload, (val, uid) => {
+                return {...val, uid};
+            });
+
             return { ...state, allStats: arr};
         default: 
             return state;

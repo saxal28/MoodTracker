@@ -16,7 +16,7 @@ import {
  import { View, Picker } from "react-native";
  import { Actions } from "react-native-router-flux";
  import { generateRange, generateSmallRange, sortData, formatDisplayDate } from "../util";
- import { saveStats, getStats } from '../actions/userActions'
+ import { saveStats, getStats, updateStats } from '../actions/userActions'
  import { connect } from "react-redux";
 
 class LogDailyValues extends Component {
@@ -26,11 +26,12 @@ class LogDailyValues extends Component {
         error: "", 
         weight: 150, 
         emotion: "happy", 
+        uid: null,
         edit: false,
         alreadyLogged: false,
         date: null,
         generatedPickerRange: false,
-        todaysDate: formatDisplayDate(new Date())
+        todaysDate: new Date().toString()
     };
 
     componentWillMount() {
@@ -47,8 +48,8 @@ class LogDailyValues extends Component {
     getStatsFromYesterday(nextProps){
         //sets our default stats from yesterday's data
         const { allStats } = nextProps;
-        const { weight, emotion } = allStats[0];
-        this.setState({ weight, emotion});
+        const { weight, emotion, uid } = allStats[0];
+        this.setState({ weight, emotion, uid});
         console.log('got yesterdays stats and sent');
 
     }
@@ -60,7 +61,12 @@ class LogDailyValues extends Component {
         sortData(allStats);
         if(allStats.length > 1) {
              if( todaysDate.substring(0,15) == allStats[0].date.substring(0,15)) {
-                this.setState({alreadyLogged: true, weight:allStats[0].weight, emotion: allStats[0].emotion });
+                this.setState({
+                    alreadyLogged: true, 
+                    weight:allStats[0].weight, 
+                    emotion: allStats[0].emotion, 
+                    uid: allStats[0].uid, 
+                    date: allStats[0].date });
                 console.log('got todays stats and sent');
             }
         }
@@ -77,18 +83,22 @@ class LogDailyValues extends Component {
         this.props.saveStats(weight, emotion, date);
     }
 
+    handleUpdateButtonPress() {
+        const { weight, emotion, date, uid } = this.state;
+        this.props.updateStats(weight, emotion, date, uid);
+    }
+
     generatePickerWeights() {
 
-                let min = this.state.weight - 10;
-                let max = min + 20;
-                var arr = generateSmallRange(min, max);
+        let min = this.state.weight - 10;
+        let max = min + 20;
+        var arr = generateSmallRange(min, max);
 
-                return arr.map(num => {
-                    return (
-                        <Picker.Item label={String(num)} value={num} key={num} />
-                    )
-                })  
-             
+        return arr.map(num => {
+            return (
+                <Picker.Item label={String(num)} value={num} key={num} />
+            )
+        })   
     }
 
     renderButton() {
@@ -97,7 +107,7 @@ class LogDailyValues extends Component {
                  <Button 
                     full
                     style={{flex: 1, backgroundColor: "orange"}}
-                    onPress={() => Actions.home()}
+                    onPress={this.handleUpdateButtonPress.bind(this)}
                 >
                     <Text>Update Log</Text>
                 </Button>                
@@ -127,12 +137,13 @@ class LogDailyValues extends Component {
     render() {
         const { alreadyLogged, date, todaysDate } = this.state;
         console.log(alreadyLogged)
+        console.log("uid: ", this.state.uid);
         return (
             <Container>
-                <Navbar title={alreadyLogged ? "Edit!" : "Log!"}  disableMenuButton />
+                <Navbar title={alreadyLogged ? "Edit!" : "Log!"}  disableMenuButton={!alreadyLogged} />
                 <Card>
                     <CardSection style={{padding: 0, marginBottom: 0, marginTop: 0}}>
-                        <Title>{date ? date : todaysDate}</Title>
+                        <Title>{date ? formatDisplayDate(date) : formatDisplayDate(todaysDate)}</Title>
                         {this.renderEmotionIcon()}
                         <Title>{`${this.state.weight} lbs`}</Title>
                         <Text>{ alreadyLogged ? "Already Logged! Scroll to Update!" : "Scroll to Log!" }</Text>
@@ -246,4 +257,4 @@ const mapStateToProps = state => {
     return { user, allStats }
 }
 
-export default connect(mapStateToProps, {saveStats, getStats})(LogDailyValues);
+export default connect(mapStateToProps, {saveStats, getStats, updateStats})(LogDailyValues);
