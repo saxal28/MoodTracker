@@ -22,6 +22,15 @@ export const saveStats = (weight, emotion, date) => {
 
     };
 }
+
+// export const updateStats = (weight, emotion, date) => {
+//     const { currentUser } = firebase.auth();
+
+//     return dispatch => {
+//         const statsObj = { weight, emotion, date };
+//         firebase.database().ref(`/users/${}/stats`)
+//     }
+// }
 // get stats => weight/mood
 export const getStats = () => {
     const { currentUser } = firebase.auth();

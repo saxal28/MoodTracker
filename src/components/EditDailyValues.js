@@ -15,11 +15,11 @@ import {
 
  import { View, Picker } from "react-native";
  import { Actions } from "react-native-router-flux";
- import { generateRange, generateSmallRange, sortData, formatDisplayDate } from "../util";
+ import { generateRange, generateSmallRange, sortData } from "../util";
  import { saveStats, getStats } from '../actions/userActions'
  import { connect } from "react-redux";
 
-class LogDailyValues extends Component {
+class EditDailyValues extends Component {
 
     state = { 
         values: [], 
@@ -28,9 +28,7 @@ class LogDailyValues extends Component {
         emotion: "happy", 
         edit: false,
         alreadyLogged: false,
-        date: null,
-        generatedPickerRange: false,
-        todaysDate: formatDisplayDate(new Date())
+        date: null
     };
 
     componentWillMount() {
@@ -40,28 +38,16 @@ class LogDailyValues extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.getStatsFromYesterday(nextProps);
         this.alreadyLogged(nextProps);
     }
 
-    getStatsFromYesterday(nextProps){
-        //sets our default stats from yesterday's data
-        const { allStats } = nextProps;
-        const { weight, emotion } = allStats[0];
-        this.setState({ weight, emotion});
-        console.log('got yesterdays stats and sent');
-
-    }
-
     alreadyLogged(nextProps) {
-        //checks to see if we already logged our stats for the day
         const todaysDate = new Date().toString();
         const { allStats } = nextProps;
         sortData(allStats);
         if(allStats.length > 1) {
              if( todaysDate.substring(0,15) == allStats[0].date.substring(0,15)) {
                 this.setState({alreadyLogged: true, weight:allStats[0].weight, emotion: allStats[0].emotion });
-                console.log('got todays stats and sent');
             }
         }
     }
@@ -70,7 +56,6 @@ class LogDailyValues extends Component {
     onWeightChange(e) { this.setState({weight: e}); }
 
     handleLogButtonPress() {
-        //have to convert date to string to store in firebase (boo)
         const date = this.state.date ? this.state.date.toString() : (new Date()).toString();
         const { weight, emotion } = this.state;
         // dispatch params to redux via action creator
@@ -78,17 +63,16 @@ class LogDailyValues extends Component {
     }
 
     generatePickerWeights() {
-
-                let min = this.state.weight - 10;
-                let max = min + 20;
-                var arr = generateSmallRange(min, max);
-
-                return arr.map(num => {
-                    return (
-                        <Picker.Item label={String(num)} value={num} key={num} />
-                    )
-                })  
-             
+        // let min = this.state.weight - 10;
+        // let max = this.state.weight + 10;
+        // var arr = generateSmallRange(min, max);
+        var arr = arr = generateRange(100,400);
+        
+        return arr.map(num => {
+            return (
+                 <Picker.Item label={String(num)} value={num} key={num} />
+            )
+        })
     }
 
     renderButton() {
@@ -125,23 +109,22 @@ class LogDailyValues extends Component {
     }
 
     render() {
-        const { alreadyLogged, date, todaysDate } = this.state;
+        const { alreadyLogged } = this.state;
         console.log(alreadyLogged)
         return (
             <Container>
                 <Navbar title={alreadyLogged ? "Edit!" : "Log!"}  disableMenuButton />
                 <Card>
                     <CardSection style={{padding: 0, marginBottom: 0, marginTop: 0}}>
-                        <Title>{date ? date : todaysDate}</Title>
                         {this.renderEmotionIcon()}
                         <Title>{`${this.state.weight} lbs`}</Title>
-                        <Text>{ alreadyLogged ? "Already Logged! Scroll to Update!" : "Scroll to Log!" }</Text>
+                        <Text>{ alreadyLogged ? "Already Logged! Scroll to Update!" : "Scroll to Update!" }</Text>
                     </CardSection>
 
                     <Grid>
                         <Col>
                             <Picker
-                                style={{ height: 80, marginBottom: 20, paddingTop: 0, minWidth: 150}}
+                                style={{ height: 100, marginTop: 0, paddingTop: 0, minWidth: 150}}
                                 onValueChange={this.onWeightChange.bind(this)}
                                 selectedValue={this.state.weight}
                             >
@@ -246,4 +229,4 @@ const mapStateToProps = state => {
     return { user, allStats }
 }
 
-export default connect(mapStateToProps, {saveStats, getStats})(LogDailyValues);
+export default connect(mapStateToProps, {saveStats, getStats})(EditDailyValues);

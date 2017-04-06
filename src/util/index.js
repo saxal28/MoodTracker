@@ -44,6 +44,14 @@ const formatFullDate =  (date) => {
     return `${month} ${day}`;
 }
 
+// Tue, Jan 12
+const formatDisplayDate = (date) => {
+    const month = months[date.getMonth()];
+    const day = date.getDate();
+    const dayNamed = daysArr[date.getDay()];
+    return `${dayNamed}, ${month} ${day}`;
+}
+
 //====================================
 // FAKE DATA for TESTING
 //====================================
@@ -127,6 +135,7 @@ export {
     daysArr, 
     months, 
     formatFullDate, 
+    formatDisplayDate,
     fakeData, 
     sortData, 
     findAverage, 

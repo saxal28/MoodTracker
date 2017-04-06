@@ -13,7 +13,7 @@ const Card = ({children, style}) => {
 const styles = {
     cardStyle: {
         marginTop: 64,
-        paddingTop: 20,
+        paddingTop: 5,
         paddingLeft: 5,
         paddingRight: 5,
         minHeight: 50,
