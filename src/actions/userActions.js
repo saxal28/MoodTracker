@@ -29,7 +29,7 @@ export const updateStats = (weight, emotion, date, uid) => {
     return dispatch => {
         firebase.database().ref(`/users/${currentUser.uid}/stats/${uid}`)
             .set({
-                weight,
+                weight: Number(weight),
                 emotion,
                 date,
                 uid

@@ -20,29 +20,6 @@ class StartScreen extends Component {
         const user = firebase.auth().currentUser;
         this.setState({user});
     }
-
-    handleLoginPress() {
-        Actions.login();
-    }
-
-    handleRegisterPress() {
-
-    }
-
-    renderButtons() {
-        if(this.state.user) {
-            return (
-                <Button full>
-                    <Text>Register</Text>
-                </Button>
-            )
-        } 
-        return (
-             <Button full style={{marginBottom: 10}} onPress={this.handleLoginPress.bind(this)}>
-                <Text>Login</Text>
-            </Button>
-        )
-    }
     
     render() {
         const { cardSectionStyle, containerStyle } = style;
@@ -51,11 +28,19 @@ class StartScreen extends Component {
                 <Card>
                     <CardSection>
                         <Title>Tracker</Title>
-                        <Subtitle>Login / Register to get Started</Subtitle>
+                        <Subtitle>What do You Want To Do?</Subtitle>
                     </CardSection>
 
-                    <CardSection style={cardSectionStyle}>
-                        {this.renderButtons()}
+                    <CardSection>
+                        <Button full style={{marginBottom: 10}} onPress={() => Actions.login({redirect: "logDailyValues"})}>
+                            <Text>Log Weight & Mood</Text>
+                        </Button>
+                        <Button full danger style={{marginBottom: 10}} onPress={() => Actions.login({redirect: "strength"})}>
+                            <Text>Track Gym</Text>
+                        </Button>
+                        <Button full warning style={{marginBottom: 10}} onPress={() => Actions.login({redirect: "home"})}>
+                            <Text>Dashboard</Text>
+                        </Button>                        
                     </CardSection>
                 </Card>
             </Container>

@@ -12,7 +12,7 @@ class Home extends Component {
 
     componentDidMount() {
         let user = firebase.auth().currentUser;
-        this.setState({ active: false })
+        this.setState({ active: false });
     }
 
     render() {

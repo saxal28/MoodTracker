@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { TabbedNavbar, FooterNav } from "./common";
+import { TabbedNavbar, FooterNav, ThreeColumnListItem } from "./common";
 import { Container, Content, Text, Button, Tab } from 'native-base';
 import { Actions } from "react-native-router-flux";
+import { View } from 'react-native';
 
 class Strength extends Component {
     render() {
@@ -10,10 +11,10 @@ class Strength extends Component {
                <TabbedNavbar title="Strength">
                     <Tab heading="Log">
                         <Content>
-                            <Text>This is the Weight Container </Text>
+                            
                         </Content>
                     </Tab>
-                    <Tab heading="Stats">
+                    <Tab heading="Stats" active>
                         <Content>
                             <Text>This is the Weight Container </Text>
                         </Content>
@@ -25,7 +26,7 @@ class Strength extends Component {
                     </Tab>
                 </TabbedNavbar>
                <Content />
-               <FooteNav trendsActive/>
+               <FooterNav stengthActive/>
             </Container>
         );
     }

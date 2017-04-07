@@ -20,7 +20,8 @@ class Login extends Component {
         this.props.getStats();
         const user = firebase.auth().currentUser;
         if (user) {
-            Actions.logDailyValues();
+            const route = this.props.redirect || "home";
+            redirect[route]();
         }
     }
 
@@ -29,7 +30,6 @@ class Login extends Component {
     handleLogin(email, password) { this.props.loginUser(email, password); }
 
     handleEmailChange(e) { this.props.emailChanged(e); }
-
     handlePasswordChange(e) { this.props.passwordChanged(e); }
 
     showLoginError() {
@@ -104,6 +104,12 @@ const style = {
         color: "red"
     }
 }
+
+const redirect = {
+    "home" : () => Actions.home(),
+    "strength" : () => Actions.strength(),
+    "logDailyValues": () => Actions.logDailyValues()
+};
 
 const mapStateToProps = state => {
     const { email, password, user, error } = state.auth;

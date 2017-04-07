@@ -29,6 +29,7 @@ class LogDailyValues extends Component {
         uid: null,
         edit: false,
         alreadyLogged: false,
+        message: "Scroll to Log!",
         date: null,
         generatedPickerRange: false,
         todaysDate: new Date().toString()
@@ -48,8 +49,14 @@ class LogDailyValues extends Component {
     getStatsFromYesterday(nextProps){
         //sets our default stats from yesterday's data
         const { allStats } = nextProps;
+        sortData(allStats);
         const { weight, emotion, uid } = allStats[0];
-        this.setState({ weight, emotion, uid});
+        this.setState({ 
+            weight: String(weight), 
+            emotion, 
+            uid,
+            message: "How did you fair from yesterday?"
+        });
         console.log('got yesterdays stats and sent');
 
     }
@@ -63,10 +70,12 @@ class LogDailyValues extends Component {
              if( todaysDate.substring(0,15) == allStats[0].date.substring(0,15)) {
                 this.setState({
                     alreadyLogged: true, 
-                    weight:allStats[0].weight, 
+                    weight: String(allStats[0].weight), 
                     emotion: allStats[0].emotion, 
                     uid: allStats[0].uid, 
-                    date: allStats[0].date });
+                    date: allStats[0].date,
+                    message: "Today's Stats Logged! Scroll to Update!"
+                });
                 console.log('got todays stats and sent');
             }
         }
@@ -135,7 +144,7 @@ class LogDailyValues extends Component {
     }
 
     render() {
-        const { alreadyLogged, date, todaysDate } = this.state;
+        const { alreadyLogged, date, todaysDate, message } = this.state;
         console.log(alreadyLogged)
         console.log("uid: ", this.state.uid);
         return (
@@ -146,7 +155,7 @@ class LogDailyValues extends Component {
                         <Title>{date ? formatDisplayDate(date) : formatDisplayDate(todaysDate)}</Title>
                         {this.renderEmotionIcon()}
                         <Title>{`${this.state.weight} lbs`}</Title>
-                        <Text>{ alreadyLogged ? "Already Logged! Scroll to Update!" : "Scroll to Log!" }</Text>
+                        <Text>{ message }</Text>
                     </CardSection>
 
                     <Grid>

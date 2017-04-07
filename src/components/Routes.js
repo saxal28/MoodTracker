@@ -20,6 +20,7 @@ const scenes = Actions.create(
             <Scene key="weight" component={Weight} hideNavBar/>
             <Scene key="emotions" component={Emotions} hideNavBar/>
             <Scene key="trends" component={Trends} hideNavBar/>
+            <Scene key="strength" component={Strength} hideNavBar />
 
     </Scene>
 );

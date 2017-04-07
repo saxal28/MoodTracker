@@ -20,6 +20,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case STATS_CREATED:
             const { weight, emotion, date } = action.payload;
+            console.log({ ...state, weight, emotion, date });
             return { ...state, weight, emotion, date }
         case GET_ALL_STATS:
         

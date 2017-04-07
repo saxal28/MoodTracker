@@ -12,14 +12,13 @@ const LineChart = ({data, y}) => {
                 theme={VictoryTheme.material}
             >
                 <VictoryAxis 
-                tickFormat = {x => days[new Date(x).getDay()]} />
+                tickFormat = {x => daysArr[x]} />
                 <VictoryAxis 
                 dependentAxis
                 tickFormat={x => x}/>
                 <VictoryLine 
                     style= {{
                         padding: 20,
-                        data: { },
                         labels: {fontSize: 12}
                     }}
                     labels="Series 1"

@@ -39,6 +39,7 @@ const months = {
 
 // Jan 12
 const formatFullDate =  (date) => {
+    date = new Date(date);
     const month = months[date.getMonth()];
     const day = date.getDate();
     return `${month} ${day}`;
