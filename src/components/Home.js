@@ -1,22 +1,58 @@
 import React, { Component } from "react";
-import { Container, Content, Text, ListItem, Fab, Icon, Button, View } from "native-base";
-import { Card, CardSection, FooterNav, Navbar, Title, Subtitle } from './common';
+import { Container, Content, Text, ListItem, Fab, Icon, Button, View, Grid, Col, Row } from "native-base";
+import { Card, CardSection, FooterNav, Navbar, Title, Subtitle, FabMenu } from './common';
+import { doDatesMatch, sortData } from "../util";
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import firebase from "firebase";
-import { getStats } from '../actions/userActions'
+import { getStats, setTodaysStats } from '../actions/userActions';
+import  { logoutUser } from "../actions";
 
 class Home extends Component {
 
-    state = { active: true, user: "" };
+    state = { active: true, user: "", logged: 'false', todaysStats: {weight: null, emotion: null} };
 
     componentDidMount() {
-        let user = firebase.auth().currentUser;
+        // work-around for wonky Fab Button not opening on load
         this.setState({ active: false });
+        // todays stats passed from log form
+        //pushes results to state
+        if(this.props.todaysStats) {
+            const { weight, emotion } = this.props.todaysStats;
+            this.setState({logged: "Worked!", todaysStats: { weight, emotion} });
+        }
+        // fixes bug where todays stats weren't rendering
+        // when returning home from bottom navbar
+        if(this.props.allStats.length > 0) {
+            this.getTodaysStats(this.props);
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.getTodaysStats(nextProps);
+    }
+
+    handleFabPress() {
+        this.setState({ active: !this.state.active })
+    }
+
+    getTodaysStats({ allStats }) {
+        if(this.props.todaysStats) {
+            this.setState({logged: "todays stats", todaysStats: this.props.todaysStats});
+        } else {
+            sortData(allStats)
+                if (doDatesMatch(allStats[0])) {
+                    this.setState({logged: "true", todaysStats: allStats[0]})
+                } else {
+                    this.setState({logged: 'didnt work...'});
+                }
+        }
     }
 
     render() {
-        console.log(this.props.user);
+        const { rowStyle, colStyle } = styles;
+        const { allStats, loggedStats, } = this.props;
+        const { todaysStats, logged } = this.state;
         return (
             <Container>
                 <Navbar 
@@ -25,45 +61,21 @@ class Home extends Component {
                     leftButton={() => Actions.logDailyValues()}
                 />
                 <View style={{flex: 1 }}>
-                    <Card>
-                        <CardSection>
-                            <Title>home page</Title>
-                            <Subtitle>Ideas...</Subtitle>
-                            <Text>Update Weight</Text>
-                            <Text>Set Goal Weight</Text>
-                            <Text>progress bar to weight goal</Text>
-                            <Text>You are averaging ... weight lost/gain this week</Text>
-                            <Text>see trends</Text>
-                            <Text>noise effect when logging stats</Text>
-                        </CardSection>
-                    </Card>
-                    <Fab
-                        active={this.state.active}
-                        direction="up"
-                        style={{ backgroundColor: '#5067FF' }}
-                        position="bottomRight"
-                        onPress={() => this.setState({ active: !this.state.active })}
-                    >
-                        <Icon name="md-apps" />
-                        <Button 
-                            style={{ backgroundColor: '#34A34F'}} 
-                            onPress={() => Actions.logDailyValues({visited: true})}
-                        >
-                            <Icon name="md-add" style={{color:'white'}}/>
-                        </Button>
-                        <Button 
-                            style={{ backgroundColor: '#3B5998' }}
-                            onPress={() => Actions.trends()}
-                        >
-                            <Icon name="md-stats" />
-                        </Button>
-                        <Button 
-                            style={{ backgroundColor: '#DD5144' }}
-                            onPress={() => Actions.trends()}
-                        >
-                            <Icon name="md-trending-up" />
-                        </Button>
-                    </Fab>
+                        <Grid>
+                            <Col style={colStyle}>
+                                <Row style={rowStyle}>
+                                    <Title>{todaysStats.weight}</Title>
+                                </Row>
+                            </Col>
+                            <Col style={colStyle}>
+                                <Row style={rowStyle}>
+                                    <Title style={{color:"white"}}>{todaysStats.emotion}</Title>
+                                </Row>
+                            </Col>
+                        </Grid>
+                   <FabMenu 
+                    active={this.state.active}                   
+                    handlePress={this.handleFabPress.bind(this)} />
                 </View>
                  <FooterNav homeActive />
             </Container>
@@ -71,10 +83,23 @@ class Home extends Component {
     }
 }
 
-
-const mapStateToProps = (state) => {
-    const { user } = state;
-    return { user }
+const styles = {
+    colStyle: {
+        backgroundColor: "darkgray", 
+    },
+    rowStyle: {
+        paddingTop: 10, 
+        paddingBottom:10, 
+        backgroundColor: "orange",
+        justifyContent: 'center'    
+    }
 }
 
-export default connect(mapStateToProps, {getStats})(Home);
+
+const mapStateToProps = (state) => {
+
+    const { loggedStats, allStats } = state.user;
+    return { loggedStats, allStats }
+}
+
+export default connect(mapStateToProps, {getStats, logoutUser, setTodaysStats})(Home);

@@ -16,7 +16,7 @@ import {
  import { View, Picker } from "react-native";
  import { Actions } from "react-native-router-flux";
  import { generateRange, generateSmallRange, sortData, formatDisplayDate } from "../util";
- import { saveStats, getStats, updateStats } from '../actions/userActions'
+ import { saveStats, getStats, updateStats, setTodaysStats } from '../actions/userActions'
  import { connect } from "react-redux";
 
 class LogDailyValues extends Component {
@@ -58,13 +58,11 @@ class LogDailyValues extends Component {
             message: "How did you fair from yesterday?"
         });
         console.log('got yesterdays stats and sent');
-
     }
 
-    alreadyLogged(nextProps) {
+    alreadyLogged({ allStats }) {
         //checks to see if we already logged our stats for the day
         const todaysDate = new Date().toString();
-        const { allStats } = nextProps;
         sortData(allStats);
         if(allStats.length > 1) {
              if( todaysDate.substring(0,15) == allStats[0].date.substring(0,15)) {
@@ -87,14 +85,17 @@ class LogDailyValues extends Component {
     handleLogButtonPress() {
         //have to convert date to string to store in firebase (boo)
         const date = this.state.date ? this.state.date.toString() : (new Date()).toString();
-        const { weight, emotion } = this.state;
+        let { weight, emotion } = this.state;
+        weight = String(weight);
         // dispatch params to redux via action creator
         this.props.saveStats(weight, emotion, date);
     }
 
     handleUpdateButtonPress() {
-        const { weight, emotion, date, uid } = this.state;
+        let { weight, emotion, date, uid } = this.state;
+        weight = String(weight)
         this.props.updateStats(weight, emotion, date, uid);
+        this.props.setTodaysStats(weight, emotion, uid);
     }
 
     generatePickerWeights() {
@@ -145,8 +146,6 @@ class LogDailyValues extends Component {
 
     render() {
         const { alreadyLogged, date, todaysDate, message } = this.state;
-        console.log(alreadyLogged)
-        console.log("uid: ", this.state.uid);
         return (
             <Container>
                 <Navbar title={alreadyLogged ? "Edit!" : "Log!"}  disableMenuButton={!alreadyLogged} />
@@ -266,4 +265,9 @@ const mapStateToProps = state => {
     return { user, allStats }
 }
 
-export default connect(mapStateToProps, {saveStats, getStats, updateStats})(LogDailyValues);
+export default connect(mapStateToProps, {
+    saveStats, 
+    getStats, 
+    updateStats,
+    setTodaysStats
+})(LogDailyValues);

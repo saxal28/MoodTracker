@@ -43,6 +43,16 @@ export const loginUser = (email, password) => {
     };
 };
 
+export const logoutUser=  () => {
+    return dispatch => {
+        firebase.auth().signOut()
+            .then (() => {
+                Actions.login({clearForm: true});
+            })
+            .catch( e => console.log(e));
+    };
+};
+
 export const emailChanged = text => {
     return {
         type: EMAIL_CHANGED,

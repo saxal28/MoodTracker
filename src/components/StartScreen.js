@@ -40,7 +40,7 @@ class StartScreen extends Component {
                         </Button>
                         <Button full warning style={{marginBottom: 10}} onPress={() => Actions.login({redirect: "home"})}>
                             <Text>Dashboard</Text>
-                        </Button>                        
+                        </Button>                         
                     </CardSection>
                 </Card>
             </Container>

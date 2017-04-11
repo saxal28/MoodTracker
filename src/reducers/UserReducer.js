@@ -1,7 +1,8 @@
-import { STATS_CREATED, GET_ALL_STATS } from "../actions/types";
+import { STATS_CREATED, GET_ALL_STATS, SET_TODAYS_STATS } from "../actions/types";
 import _ from 'lodash';
 
 const INITIAL_STATE = {
+    loggedStats: false,
     allStats: [],
     weight: null,
     emotion: null,
@@ -29,6 +30,9 @@ const userReducer = (state = INITIAL_STATE, action) => {
             });
 
             return { ...state, allStats: arr};
+        case SET_TODAYS_STATS:
+            console.log("SET_TODAYS_STATS ", {...state, ...action.payload, loggedStats: true })
+            return {...state, ...action.payload, loggedStats: true }
         default: 
             return state;
     }

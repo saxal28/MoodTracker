@@ -17,9 +17,10 @@ import firebase from "firebase";
 class Login extends Component {
 
     componentWillMount(){
-        this.props.getStats();
         const user = firebase.auth().currentUser;
+        
         if (user) {
+            this.props.getStats();
             const route = this.props.redirect || "home";
             redirect[route]();
         }

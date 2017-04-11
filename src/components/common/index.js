@@ -8,3 +8,4 @@ export * from "./Navbar";
 export * from "./ThreeColumnListItem";
 export * from "./LineChart";
 export * from "./BarChart";
+export * from "./FabMenu";

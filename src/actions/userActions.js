@@ -2,7 +2,8 @@ import firebase from 'firebase';
 import { Actions } from 'react-native-router-flux';
 import {
     STATS_CREATED,
-    GET_ALL_STATS
+    GET_ALL_STATS,
+    SET_TODAYS_STATS
 } from "./types";
 
 // creates stats => weight/mood
@@ -15,9 +16,9 @@ export const saveStats = (weight, emotion, date) => {
             .push(statsObj)
             .then((stats) => {
                 dispatch({type: STATS_CREATED, payload: statsObj});
-                Actions.home({type: "reset"});
+                Actions.home({type: "reset", todaysStats: statsObj});
             })
-            .catch(e => console.log(e))
+            .catch(e => console.log(e));
 
     };
 };
@@ -25,19 +26,15 @@ export const saveStats = (weight, emotion, date) => {
 // updates stats => weight/mood
 export const updateStats = (weight, emotion, date, uid) => {
     const { currentUser } = firebase.auth();
+    const statsObj = { weight, emotion, date, uid }
 
     return dispatch => {
         firebase.database().ref(`/users/${currentUser.uid}/stats/${uid}`)
-            .set({
-                weight: Number(weight),
-                emotion,
-                date,
-                uid
-            })
+            .set(statsObj)
             .then(() => {
                 console.log("success")
                 dispatch({type: "Uupdate stats"})
-                Actions.home({type: 'reset'})
+                Actions.home({type: 'reset', todaysStats: statsObj});
             })
             .catch(e => console.log(e));
     };
@@ -47,6 +44,8 @@ export const updateStats = (weight, emotion, date, uid) => {
 export const getStats = () => {
     const { currentUser } = firebase.auth();
 
+
+
     return (dispatch) => {
         firebase.database().ref(`/users/${currentUser.uid}/stats`)
             .on('value', snapshot => {
@@ -54,7 +53,18 @@ export const getStats = () => {
                 dispatch({type: GET_ALL_STATS, payload: snapshot.val()})
             });
     };
+
+
 };
+
+//makes todays stats available in global application state
+export const setTodaysStats = (weight, emotion, uid ) => {
+    const statsObj = {weight, emotion, uid};
+    return {
+        type: SET_TODAYS_STATS,
+        payload: statsObj
+    }
+}
 
 
 //add strength records

@@ -11,7 +11,17 @@ class Strength extends Component {
                <TabbedNavbar title="Strength">
                     <Tab heading="Log">
                         <Content>
-                            
+                            <ThreeColumnListItem 
+                                bold
+                                col1="Bench Press"
+                                col2="reps"
+                                col3="weight"
+                            />
+                             <ThreeColumnListItem 
+                                col1="Bench Press"
+                                col2="input"
+                                col3="checkmark"
+                            />
                         </Content>
                     </Tab>
                     <Tab heading="Stats" active>

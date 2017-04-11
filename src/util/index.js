@@ -54,6 +54,16 @@ const formatDisplayDate = (date) => {
     return `${dayNamed}, ${month} ${day}`;
 }
 
+const doDatesMatch = ({date}) => {
+    const todaysDate = String(new Date());
+
+    if(todaysDate.substring(0,15).includes(date.substring(0,15))) {
+        return true
+    } else {
+        return false;
+    }
+}
+
 //====================================
 // FAKE DATA for TESTING
 //====================================
@@ -143,6 +153,7 @@ export {
     findAverage, 
     generateRange,
     generateSmallRange,
-    countEmotions
+    countEmotions,
+    doDatesMatch
 };
 
