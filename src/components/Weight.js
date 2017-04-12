@@ -5,7 +5,8 @@ import { Actions } from "react-native-router-flux";
 import { days, months, daysArr, formatFullDate, fakeData, sortData, findAverage } from "../util";
 import { View } from 'react-native';
 import { connect } from "react-redux";
-import { getStats } from "../actions/userActions"
+import { getStats } from "../actions/userActions";
+import _ from 'lodash';
 
 class Weight extends Component {
 
@@ -118,7 +119,9 @@ class Weight extends Component {
 }
 
 const mapStateToProps = (state) => {
-    const { allStats } = state.user;
+
+    let { allStats } = state.user;
+    _.each(allStats, (value, key) => value.weight = Number(value.weight));     
     return { allStats }
 }
 

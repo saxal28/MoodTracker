@@ -31,8 +31,11 @@ class LogDailyValues extends Component {
         alreadyLogged: false,
         message: "Scroll to Log!",
         date: null,
-        generatedPickerRange: false,
-        todaysDate: new Date().toString()
+        generatedPickerRange: 150,
+        yesterdaysStats: {
+            weight: null,
+        },
+        todaysDate: new Date().toString(),
     };
 
     componentWillMount() {
@@ -44,6 +47,7 @@ class LogDailyValues extends Component {
     componentWillReceiveProps(nextProps) {
         this.getStatsFromYesterday(nextProps);
         this.alreadyLogged(nextProps);
+        this.getPickerNumber(nextProps, this.state.weight);
     }
 
     getStatsFromYesterday(nextProps){
@@ -72,6 +76,7 @@ class LogDailyValues extends Component {
                     emotion: allStats[0].emotion, 
                     uid: allStats[0].uid, 
                     date: allStats[0].date,
+                    generatedPickerRange: allStats[0].weight,
                     message: "Today's Stats Logged! Scroll to Update!"
                 });
                 console.log('got todays stats and sent');
@@ -85,22 +90,27 @@ class LogDailyValues extends Component {
     handleLogButtonPress() {
         //have to convert date to string to store in firebase (boo)
         const date = this.state.date ? this.state.date.toString() : (new Date()).toString();
-        let { weight, emotion } = this.state;
+        let { weight, emotion, yesterdaysStats } = this.state;
         weight = String(weight);
         // dispatch params to redux via action creator
-        this.props.saveStats(weight, emotion, date);
+        this.props.saveStats(weight, emotion, date, yesterdaysStats);
     }
 
     handleUpdateButtonPress() {
-        let { weight, emotion, date, uid } = this.state;
+        let { weight, emotion, date, uid, yesterdaysStats } = this.state;
         weight = String(weight)
-        this.props.updateStats(weight, emotion, date, uid);
+        this.props.updateStats(weight, emotion, date, uid, yesterdaysStats);
         this.props.setTodaysStats(weight, emotion, uid);
     }
 
-    generatePickerWeights() {
+    getPickerNumber(nextProps){
+        const { allStats } = nextProps;
+        this.setState({generatedPickerRange: allStats[0].weight});
+        console.log("generated picker numner: ", allStats[0].weight);
+    }
 
-        let min = this.state.weight - 10;
+    generatePickerWeights(range) {
+        let min = this.state.generatedPickerRange - 10;
         let max = min + 20;
         var arr = generateSmallRange(min, max);
 
@@ -262,6 +272,7 @@ const emotions = {
 const mapStateToProps = state => {
     const { user } = state;
     const { allStats } = state.user;
+    _.each(allStats, (value, key) => value.weight = Number(value.weight)); 
     return { user, allStats }
 }
 

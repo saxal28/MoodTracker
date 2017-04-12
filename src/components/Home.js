@@ -10,49 +10,52 @@ import  { logoutUser } from "../actions";
 
 class Home extends Component {
 
-    state = { active: true, user: "", logged: 'false', todaysStats: {weight: null, emotion: null} };
+    state = { 
+        active: true, 
+        user: "", 
+        logged: 'false', 
+        todaysStats: {
+            weight: null, emotion: null
+        },
+        yesterdaysStats: {
+            weight: null, emotion: null
+        } 
+    };
+
+    componentWillMount() {
+        this.props.getStats()
+    }
 
     componentDidMount() {
-        // work-around for wonky Fab Button not opening on load
-        this.setState({ active: false });
-        // todays stats passed from log form
-        //pushes results to state
-        if(this.props.todaysStats) {
-            const { weight, emotion } = this.props.todaysStats;
-            this.setState({logged: "Worked!", todaysStats: { weight, emotion} });
-        }
-        // fixes bug where todays stats weren't rendering
-        // when returning home from bottom navbar
-        if(this.props.allStats.length > 0) {
-            this.getTodaysStats(this.props);
-        }
+        this.setState({active: false})
     }
 
     componentWillReceiveProps(nextProps) {
-        this.getTodaysStats(nextProps);
+        const { allStats } = nextProps;
+        sortData(allStats);
+        this.setState({
+            todaysStats: {
+                weight: allStats[0].weight,
+                emotion: allStats[0].emotion,
+                uid: allStats[0].uid
+            },
+            yesterdaysStats: {
+                weight: allStats[1].weight || null,
+                emotion: allStats[1].emotion || null,
+                uid: allStats[1].uid || null
+            }
+        })
     }
 
     handleFabPress() {
         this.setState({ active: !this.state.active })
     }
 
-    getTodaysStats({ allStats }) {
-        if(this.props.todaysStats) {
-            this.setState({logged: "todays stats", todaysStats: this.props.todaysStats});
-        } else {
-            sortData(allStats)
-                if (doDatesMatch(allStats[0])) {
-                    this.setState({logged: "true", todaysStats: allStats[0]})
-                } else {
-                    this.setState({logged: 'didnt work...'});
-                }
-        }
-    }
-
     render() {
         const { rowStyle, colStyle } = styles;
-        const { allStats, loggedStats, } = this.props;
-        const { todaysStats, logged } = this.state;
+        const { allStats, loggedStats } = this.props;
+        const { todaysStats, logged, yesterdaysStats } = this.state;
+
         return (
             <Container>
                 <Navbar 
@@ -61,7 +64,12 @@ class Home extends Component {
                     leftButton={() => Actions.logDailyValues()}
                 />
                 <View style={{flex: 1 }}>
-                        <Grid>
+                        <Title style={{paddingTop: 10, alignSelf: "center"}}>{todaysStats.weight}</Title>
+                        <Title style={{paddingTop: 10, alignSelf: "center"}}>
+                            {(yesterdaysStats.weight - todaysStats.weight).toFixed(1)}
+                        </Title>
+                        <Title style={{paddingTop: 10, alignSelf: "center"}}>{yesterdaysStats.weight}</Title>
+                        {/*<Grid>
                             <Col style={colStyle}>
                                 <Row style={rowStyle}>
                                     <Title>{todaysStats.weight}</Title>
@@ -69,10 +77,10 @@ class Home extends Component {
                             </Col>
                             <Col style={colStyle}>
                                 <Row style={rowStyle}>
-                                    <Title style={{color:"white"}}>{todaysStats.emotion}</Title>
+                                    <Title style={{color:"slategray"}}>{todaysStats.emotion}</Title>
                                 </Row>
                             </Col>
-                        </Grid>
+                        </Grid>*/}
                    <FabMenu 
                     active={this.state.active}                   
                     handlePress={this.handleFabPress.bind(this)} />
@@ -90,7 +98,7 @@ const styles = {
     rowStyle: {
         paddingTop: 10, 
         paddingBottom:10, 
-        backgroundColor: "orange",
+        backgroundColor: "white",
         justifyContent: 'center'    
     }
 }
