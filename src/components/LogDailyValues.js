@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, CardSection, Title, Subtitle, Navbar } from "./common";
+import { Card, CardSection, Title, Subtitle, Navbar, ImageBackground } from "./common";
 import { 
     Text, 
     Button, 
@@ -116,7 +116,7 @@ class LogDailyValues extends Component {
 
         return arr.map(num => {
             return (
-                <Picker.Item label={String(num)} value={num} key={num} />
+                <Picker.Item label={String(num)} value={num} key={num} color="white"/>
             )
         })   
     }
@@ -126,7 +126,7 @@ class LogDailyValues extends Component {
             return (
                  <Button 
                     full
-                    style={{flex: 1, backgroundColor: "orange"}}
+                    style={styles.buttonStyle}
                     onPress={this.handleUpdateButtonPress.bind(this)}
                 >
                     <Text>Update Log</Text>
@@ -136,7 +136,7 @@ class LogDailyValues extends Component {
         return (
              <Button 
                 full 
-                style={{flex: 1}}
+                style={styles.buttonStyle}
                 onPress={this.handleLogButtonPress.bind(this)}
             >
                 <Text>Check In!</Text>
@@ -151,26 +151,28 @@ class LogDailyValues extends Component {
                 <Icon name={emotions[emotion].icon} style={emotions[emotion].styles} />
             )
         }
-        return <Icon name="happy" style={{fontSize: 100, fontWeight: 'bold'}} />
+        return <Icon name="happy" style={{fontSize: 100, fontWeight: 'bold', backgroundColor:'transparent'}} />
     }
 
     render() {
         const { alreadyLogged, date, todaysDate, message } = this.state;
+        const { textStyle } = styles;
         return (
-            <Container>
-                <Navbar title={alreadyLogged ? "Edit!" : "Log!"}  disableMenuButton={!alreadyLogged} />
-                <Card>
+            <ImageBackground imageLink={require("../assets/wallpaper3.jpg")}>
+                <Navbar title={alreadyLogged ? "Edit!" : "Log!"}  disableMenuButton={!alreadyLogged} transparent />
+
+                <View style={{paddingTop: 50, flex: 1}}>                
                     <CardSection style={{padding: 0, marginBottom: 0, marginTop: 0}}>
-                        <Title>{date ? formatDisplayDate(date) : formatDisplayDate(todaysDate)}</Title>
+                        <Title style={textStyle}>{date ? formatDisplayDate(date) : formatDisplayDate(todaysDate)}</Title>
                         {this.renderEmotionIcon()}
-                        <Title>{`${this.state.weight} lbs`}</Title>
-                        <Text>{ message }</Text>
+                        <Title style={textStyle}>{`${this.state.weight} lbs`}</Title>
+                        <Text style={textStyle}>{ message }</Text>
                     </CardSection>
 
                     <Grid>
                         <Col>
                             <Picker
-                                style={{ height: 80, marginBottom: 20, paddingTop: 0, minWidth: 150}}
+                                style={{ height: 100, marginBottom: 10, marginTop: 10, minWidth: 150}}
                                 onValueChange={this.onWeightChange.bind(this)}
                                 selectedValue={this.state.weight}
                             >
@@ -179,25 +181,26 @@ class LogDailyValues extends Component {
                         </Col>
                         <Col>
                             <Picker
-                                style={{ height: 100, marginTop: 0, paddingTop: 0, minWidth: 150}}
+                                style={{ height: 100, marginTop: 10, marginBottom: 10, paddingTop: 0, minWidth: 150}}
                                 onValueChange={this.onEmotionChange.bind(this)}
                                 selectedValue={this.state.emotion}
                             >
-                                <Picker.Item label="Happy" value="happy" />
-                                <Picker.Item label="Sad" value="sad"/>
-                                <Picker.Item label="Anxious" value="anxious" />
-                                <Picker.Item label="Confident" value="confident" />
-                                <Picker.Item label="Depressed" value="depressed" />
+                                <Picker.Item label="Happy" value="happy" color="white"/>
+                                <Picker.Item label="Sad" value="sad" color="white"/>
+                                <Picker.Item label="Anxious" value="anxious" color="white" />
+                                <Picker.Item label="Confident" value="confident" color="white" />
+                                <Picker.Item label="Depressed" value="depressed" color="white" />
                             </Picker>
                         </Col>
                     </Grid>
                         
                     <CardSection style={styles.emotionContainerStyle}>
                         {this.renderButton()}
-                    </CardSection>             
+                    </CardSection> 
 
-                </Card>
-            </Container>
+                    </View>
+                
+            </ImageBackground>
         )
     }
 }
@@ -209,7 +212,8 @@ const styles = {
         flexWrap: "wrap",
         bottom: 0,
         left: 0,
-        right: 0
+        right: 0,
+        backgroundColor:'transparent'
     },
     iconStyle: {
         fontSize:  40,
@@ -221,6 +225,20 @@ const styles = {
     },
     successStyle: {
         color: "lime"
+    },
+    buttonStyle: {
+        flex: 1,
+        shadowColor:"#333",
+        shadowOpacity: 0.8,
+        shadowRadius: 1,
+        shadowOffset: {
+            height: 2,
+            width: 0
+        }
+    },
+    textStyle: {
+        color: 'white',
+        backgroundColor: "transparent"
     }
 }
 
@@ -229,7 +247,8 @@ const emotions = {
         styles: {
             color: "green",
             fontSize:  100,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            backgroundColor:'transparent'
         },
         icon: "happy"  
     },
@@ -237,7 +256,8 @@ const emotions = {
         styles: {
             color: "red",
             fontSize:  100,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            backgroundColor:'transparent'
         },
         icon: "sad"
     },
@@ -246,7 +266,8 @@ const emotions = {
         styles: {
             color: "orange",
             fontSize:  100,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            backgroundColor:'transparent'
         },
         icon: "sad"
     },
@@ -255,7 +276,8 @@ const emotions = {
         styles: {
             color: "lime",
             fontSize:  100,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            backgroundColor:'transparent'
         },
         icon: "happy"
     },
@@ -263,7 +285,8 @@ const emotions = {
         styles: {
             color: "blue",
             fontSize:  100,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            backgroundColor:'transparent'
         },
         icon: "sad"
     }

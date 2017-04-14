@@ -2,12 +2,12 @@ import React from 'react';
 import {  Fab, Icon, Button } from 'native-base';
 import { Actions } from 'react-native-router-flux';
 
-const FabMenu = ({handlePress, active}) => {
+const FabMenu = ({handlePress, active, style}) => {
     return (
          <Fab
             active={active}
             direction="up"
-            style={{ backgroundColor: '#5067FF' }}
+            style={styles.fabStyle}
             position="bottomRight"
             onPress={() => handlePress()}
          >
@@ -32,6 +32,19 @@ const FabMenu = ({handlePress, active}) => {
             </Button>
          </Fab>
     )
+}
+
+const styles = {
+    fabStyle: {
+        backgroundColor: '#5067FF',
+        shadowColor:"#333",
+        shadowOpacity: 0.8,
+        shadowRadius: 1,
+        shadowOffset: {
+            height: 2,
+            width: 0
+        }
+    }
 }
 
 export { FabMenu }

@@ -8,7 +8,7 @@ import {
     H2,
     H3,
  } from 'native-base';
-import { Title, Subtitle, Card, CardSection } from "./common";
+import { Title, Subtitle, Card, CardSection, ImageBackground } from "./common";
 import  { Actions } from "react-native-router-flux";
 import firebase from 'firebase';
 
@@ -22,28 +22,28 @@ class StartScreen extends Component {
     }
     
     render() {
-        const { cardSectionStyle, containerStyle } = style;
+        const { cardSectionStyle, containerStyle, buttonStyle } = style;
          return (
-            <Container style={containerStyle}>
+            <ImageBackground imageLink={require("../assets/wallpaper1.jpg")}>
                 <Card>
                     <CardSection>
-                        <Title>Tracker</Title>
-                        <Subtitle>What do You Want To Do?</Subtitle>
+                        <Title style={{color: "white", backgroundColor: "transparent"}}>Tracker</Title>
+                        <Subtitle style={{color: "white", backgroundColor: "transparent"}}>What do You Want To Do?</Subtitle>
                     </CardSection>
 
                     <CardSection>
-                        <Button full style={{marginBottom: 10}} onPress={() => Actions.login({redirect: "logDailyValues"})}>
+                        <Button full style={buttonStyle} onPress={() => Actions.login({redirect: "logDailyValues"})}>
                             <Text>Log Weight & Mood</Text>
                         </Button>
-                        <Button full danger style={{marginBottom: 10}} onPress={() => Actions.login({redirect: "strength"})}>
+                        <Button full danger style={buttonStyle} onPress={() => Actions.login({redirect: "strength"})}>
                             <Text>Track Gym</Text>
                         </Button>
-                        <Button full warning style={{marginBottom: 10}} onPress={() => Actions.login({redirect: "home"})}>
+                        <Button full light style={buttonStyle} onPress={() => Actions.login({redirect: "home"})}>
                             <Text>Dashboard</Text>
                         </Button>                         
                     </CardSection>
                 </Card>
-            </Container>
+            </ImageBackground>
         )
     }
 }
@@ -56,7 +56,19 @@ const style = {
         right: 0,
     },
     containerStyle: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        backgroundColor: "slategray"        
+    },
+     buttonStyle: {
+        padding: 10, 
+        marginTop: 10, 
+        shadowColor:"#333",
+        shadowOpacity: 0.8,
+        shadowRadius: 1,
+        shadowOffset: {
+            height: 2,
+            width: 0
+        }
     }
 }
 

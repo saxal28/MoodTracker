@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Container, Content, Text, ListItem, Fab, Icon, Button, View, Grid, Col, Row } from "native-base";
-import { Card, CardSection, FooterNav, Navbar, Title, Subtitle, FabMenu } from './common';
+import { Card, CardSection, FooterNav, Navbar, Title, Subtitle, FabMenu, ImageBackground } from './common';
 import { doDatesMatch, sortData } from "../util";
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
@@ -57,19 +57,19 @@ class Home extends Component {
         const { todaysStats, logged, yesterdaysStats } = this.state;
 
         return (
-            <Container>
+            <Container style={{backgroundColor:"red"}}>
                 <Navbar 
                     title="Home" 
                     leftButton
                     leftButton={() => Actions.logDailyValues()}
                 />
-                <View style={{flex: 1 }}>
-                        <Title style={{paddingTop: 10, alignSelf: "center"}}>{todaysStats.weight}</Title>
+                <View style={{flex: 1, backgroundColor:'orange'}}>
+                        {/*<Title style={{paddingTop: 10, alignSelf: "center"}}>{todaysStats.weight}</Title>
                         <Title style={{paddingTop: 10, alignSelf: "center"}}>
                             {(yesterdaysStats.weight - todaysStats.weight).toFixed(1)}
                         </Title>
-                        <Title style={{paddingTop: 10, alignSelf: "center"}}>{yesterdaysStats.weight}</Title>
-                        {/*<Grid>
+                        <Title style={{paddingTop: 10, alignSelf: "center"}}>{yesterdaysStats.weight}</Title>*/}
+                        <Grid>
                             <Col style={colStyle}>
                                 <Row style={rowStyle}>
                                     <Title>{todaysStats.weight}</Title>
@@ -80,7 +80,7 @@ class Home extends Component {
                                     <Title style={{color:"slategray"}}>{todaysStats.emotion}</Title>
                                 </Row>
                             </Col>
-                        </Grid>*/}
+                        </Grid>
                    <FabMenu 
                     active={this.state.active}                   
                     handlePress={this.handleFabPress.bind(this)} />
@@ -100,7 +100,7 @@ const styles = {
         paddingBottom:10, 
         backgroundColor: "white",
         justifyContent: 'center'    
-    }
+    },
 }
 
 

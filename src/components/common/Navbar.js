@@ -1,10 +1,10 @@
 import React from "react";
 import { Header, Title, Button, Subtitle, Left, Right, Body, Icon} from "native-base";
 
-const Navbar = ({title, subtitle, leftButton, rightButton, leftButtonAction, rightButtonAction, disableMenuButton}) => {
+const Navbar = ({title, subtitle, leftButton, rightButton, leftButtonAction, rightButtonAction, disableMenuButton, transparent}) => {
     return (
         <Header
-            hasTabs style={{backgroundColor: "#333"}}
+            hasTabs style={{backgroundColor: transparent ? "transparent" : "#333"}}
             iosBarStyle="light-content"
         >
             <Left />

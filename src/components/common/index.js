@@ -9,3 +9,4 @@ export * from "./ThreeColumnListItem";
 export * from "./LineChart";
 export * from "./BarChart";
 export * from "./FabMenu";
+export * from "./ImageBackground";

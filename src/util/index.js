@@ -101,6 +101,12 @@ const fakeData = [
         });
   };
 
+  const reverseSortData = (data) => {
+        return data.sort((a, b) => {
+            return new Date(a.date) - new Date(b.date);
+        });
+  };
+
   const findAverage = (data) => {
         let sum = 0;
         data.forEach(data => sum += data.weight);
@@ -149,6 +155,7 @@ export {
     formatFullDate, 
     formatDisplayDate,
     fakeData, 
+    reverseSortData,
     sortData, 
     findAverage, 
     generateRange,

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { TabbedNavbar, FooterNav, ThreeColumnListItem, LineChart } from "./common";
 import { Container, Content, Text, Button, Tab, ListItem, Grid, Col, Icon } from 'native-base';
 import { Actions } from "react-native-router-flux";
-import { days, months, daysArr, formatFullDate, fakeData, sortData, findAverage } from "../util";
+import { days, months, daysArr, formatFullDate, fakeData, sortData, findAverage, reverseSortData } from "../util";
 import { View } from 'react-native';
 import { connect } from "react-redux";
 import { getStats } from "../actions/userActions";
@@ -76,25 +76,25 @@ class Weight extends Component {
                                 bold
                                 col2="Past 10 Days"
                             />
-                           <LineChart data={firstTenDays} y="weight"/>
+                           <LineChart data={reverseSortData(firstTenDays)} y="weight"/>
 
                             <ThreeColumnListItem 
                                 bold
                                 col2="Past 30 Days"
                             />
-                           <LineChart data={firstMonth} y="weight"/>
+                           <LineChart data={reverseSortData(firstMonth)} y="weight"/>
 
                            <ThreeColumnListItem 
                                 bold
                                 col2="Past 90 Days"
                             />
-                           <LineChart data={threeMonths} y="weight"/>
+                           <LineChart data={reverseSortData(threeMonths)} y="weight"/>
 
                            <ThreeColumnListItem 
                                 bold
                                 col2="All"
                             />
-                           <LineChart data={allStats} y="weight"/>
+                           <LineChart data={reverseSortData(allStats)} y="weight"/>
 
                         </Content>
                     </Tab>
