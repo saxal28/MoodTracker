@@ -6,8 +6,11 @@ const TabbedNavbar = ({ title, children }) => {
     return (
         <Container>
             <Header 
-                hasTabs style={{backgroundColor: "#333"}}
+                hasTabs 
+                style={{backgroundColor: "#333"}}
                 iosBarStyle="light-content"
+                tabStyle={{backgroundColor:"lime"}}
+                
             >
                 <Left>
                     <Button transparent onPress={() => Actions.home()}>
@@ -19,7 +22,7 @@ const TabbedNavbar = ({ title, children }) => {
                     </Body>
                 <Right />
             </Header>
-            <Tabs>
+            <Tabs activeTabStyle={{backgroundColor:"firebrick"}}>
                {children}
             </Tabs>
         </Container>

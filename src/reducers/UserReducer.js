@@ -8,7 +8,7 @@ const INITIAL_STATE = {
     emotion: null,
     date: null,
     strength: {
-        benchPress: null,
+        benchPress: [],
         overheadPress: null,
         squat: null,
         deadlift: null,

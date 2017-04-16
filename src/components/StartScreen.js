@@ -24,7 +24,7 @@ class StartScreen extends Component {
     render() {
         const { cardSectionStyle, containerStyle, buttonStyle } = style;
          return (
-            <ImageBackground imageLink={require("../assets/wallpaper1.jpg")}>
+            <ImageBackground imageLink={require("../assets/graphWallpaper.png")}>
                 <Card>
                     <CardSection>
                         <Title style={{color: "white", backgroundColor: "transparent"}}>Tracker</Title>
@@ -32,10 +32,10 @@ class StartScreen extends Component {
                     </CardSection>
 
                     <CardSection>
-                        <Button full style={buttonStyle} onPress={() => Actions.login({redirect: "logDailyValues"})}>
+                        <Button full success style={buttonStyle} onPress={() => Actions.login({redirect: "logDailyValues"})}>
                             <Text>Log Weight & Mood</Text>
                         </Button>
-                        <Button full danger style={buttonStyle} onPress={() => Actions.login({redirect: "strength"})}>
+                        <Button full warning style={buttonStyle} onPress={() => Actions.login({redirect: "strength"})}>
                             <Text>Track Gym</Text>
                         </Button>
                         <Button full light style={buttonStyle} onPress={() => Actions.login({redirect: "home"})}>

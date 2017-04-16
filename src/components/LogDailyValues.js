@@ -31,7 +31,7 @@ class LogDailyValues extends Component {
         alreadyLogged: false,
         message: "Scroll to Log!",
         date: null,
-        generatedPickerRange: 150,
+        generatedPickerRange: null,
         yesterdaysStats: {
             weight: null,
         },
@@ -76,7 +76,7 @@ class LogDailyValues extends Component {
                     emotion: allStats[0].emotion, 
                     uid: allStats[0].uid, 
                     date: allStats[0].date,
-                    generatedPickerRange: allStats[0].weight,
+                    generatedPickerRange: String(allStats[0].weight),
                     message: "Today's Stats Logged! Scroll to Update!"
                 });
                 console.log('got todays stats and sent');
@@ -105,7 +105,7 @@ class LogDailyValues extends Component {
 
     getPickerNumber(nextProps){
         const { allStats } = nextProps;
-        this.setState({generatedPickerRange: allStats[0].weight});
+        this.setState({generatedPickerRange: 187});
         console.log("generated picker numner: ", allStats[0].weight);
     }
 
@@ -126,6 +126,7 @@ class LogDailyValues extends Component {
             return (
                  <Button 
                     full
+                    warning
                     style={styles.buttonStyle}
                     onPress={this.handleUpdateButtonPress.bind(this)}
                 >
@@ -136,6 +137,7 @@ class LogDailyValues extends Component {
         return (
              <Button 
                 full 
+                success
                 style={styles.buttonStyle}
                 onPress={this.handleLogButtonPress.bind(this)}
             >
@@ -158,7 +160,7 @@ class LogDailyValues extends Component {
         const { alreadyLogged, date, todaysDate, message } = this.state;
         const { textStyle } = styles;
         return (
-            <ImageBackground imageLink={require("../assets/wallpaper3.jpg")}>
+            <ImageBackground imageLink={require("../assets/graphWallpaper.png")}>
                 <Navbar title={alreadyLogged ? "Edit!" : "Log!"}  disableMenuButton={!alreadyLogged} transparent />
 
                 <View style={{paddingTop: 50, flex: 1}}>                

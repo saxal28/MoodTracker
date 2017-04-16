@@ -129,6 +129,14 @@ const fakeData = [
       return arr;
   }
 
+  const generateArrFromNumber = (num) => {
+    let arr = [];
+    for(var i = 1; i <= num; i++) {
+        arr.push(i);
+    }
+    return arr;
+  }
+
 //purpose is to count the moods in data object to render piechart
   const countEmotions = data => {
         var emotionCount = [
@@ -160,6 +168,7 @@ export {
     findAverage, 
     generateRange,
     generateSmallRange,
+    generateArrFromNumber,
     countEmotions,
     doDatesMatch
 };

@@ -10,3 +10,4 @@ export * from "./LineChart";
 export * from "./BarChart";
 export * from "./FabMenu";
 export * from "./ImageBackground";
+export * from './StyledTab';
