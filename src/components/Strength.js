@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TabbedNavbar, FooterNav, ThreeColumnListItem, StyledTab } from "./common";
+import { TabbedNavbar, FooterNav, ThreeColumnListItem, StyledTab, Card } from "./common";
 import { Container, Content, Text, Button, Tab, Grid, Col, Row, Form, Item, Label, Input, Icon } from 'native-base';
 import { Actions } from "react-native-router-flux";
 import { View } from 'react-native';
@@ -8,6 +8,7 @@ import { generateArrFromNumber } from "../util";
 class Strength extends Component {
 
     state = { 
+        completed: false,
         numberOfSets: generateArrFromNumber(3), 
         setExercise: "bench",
         strength: {
@@ -19,8 +20,14 @@ class Strength extends Component {
         } 
     };
 
-    calculateOneRepMax(weight, reps) {
-        return Math.floor((weight * 0.03 * reps) + weight);
+    calculateOneRepMax(obj) {
+        if(obj) {
+            console.log(Math.floor((Number(obj.weight) * 0.03 * (Number(obj.reps)) + Number(obj.weight))));
+            return Math.floor((Number(obj.weight) * 0.03 * (Number(obj.reps)) + Number(obj.weight)));
+        } else {
+            return "225"
+        }
+        
     }
 
     setStrength(set, weight, reps) {
@@ -38,42 +45,44 @@ class Strength extends Component {
                 reps,
                 set
             }  
+            this.setState({completed: true})
         }
     }
 
     renderSets() {
-        const { strength } = this.state;
+        const { strength, setExercise } = this.state;
+        
         return this.state.numberOfSets.map((set, index) => {
             return (
                 <Grid style={{marginTop: 20}} key={index}>
-                                <Col>
-                                    <Item>
-                                        <Input 
-                                            style={{textAlign: "center"}}
-                                            placeholder={strength.bench.weight || "175"}
-                                            onChangeText={(weight) => this.setStrength(set, weight, null)}                                            
-                                        />
-                                    </Item>
-                                </Col>
-                                <Col>
-                                    <Item>
-                                        <Input 
-                                            style={{textAlign: 'center'}}
-                                            placeholder={strength.bench.reps || "5"}
-                                            onChangeText={(reps) => this.setStrength(set, null, reps)}  
-                                        />
-                                    </Item>
-                                </Col>
+                    <Col>
+                        <Item>
+                             <Input 
+                                style={{textAlign: "center"}}
+                                placeholder={strength.bench.weight || "175"}
+                                onChangeText={(weight) => this.setStrength(set, weight, null)}                                            
+                            />
+                        </Item>
+                     </Col>
+                    <Col>
+                          <Item>
+                             <Input 
+                                 style={{textAlign: 'center'}}
+                                 placeholder={strength.bench.reps || "5"}
+                                 onChangeText={(reps) => this.setStrength(set, null, reps)}  
+                             />
+                         </Item>
+                     </Col>
 
-                                <Col>
-                                    <Item>
-                                        <Input 
-                                            style={{textAlign: "center"}}
-                                            placeholder={String(this.calculateOneRepMax(225, 5))}
-                                        />
-                                    </Item>
-                                </Col>                                
-                            </Grid>
+                     <Col>
+                        <Item>
+                              <Input 
+                                  style={{textAlign: "center"}}
+                                  value={String(this.calculateOneRepMax(strength[setExercise][index]))}
+                             />
+                         </Item>
+                     </Col>                                
+                </Grid>
             )
         })
     }
@@ -95,7 +104,8 @@ class Strength extends Component {
     }
 
     render() {
-        console.log(this.state.strength)
+        const { strength, setExercise } = this.state;
+        console.log(strength[setExercise][0]);
         return (
             <Container>
                <TabbedNavbar title="Strength">
@@ -106,6 +116,7 @@ class Strength extends Component {
                         activeTabStyle={{backgroundColor:"#333"}}
                     > 
                         <Content>
+
                            <Grid style={{ height: 50, justifyContent: "center", alignItems:"center"}}>
                                <Col><Text style={{textAlign:'center'}}>Weight</Text></Col>
                                <Col><Text style={{textAlign:'center'}}>Reps</Text></Col>
@@ -130,9 +141,6 @@ class Strength extends Component {
                             ><Text>Log</Text>
                             </Button>
 
-                            <Text>
-
-                            </Text>
                         </Content>
                     </StyledTab>
 
