@@ -76,7 +76,7 @@ class Weight extends Component {
                                 bold
                                 col2="Past 10 Days"
                             />
-                           <LineChart data={reverseSortData(firstTenDays)} y="weight"/>
+                           <LineChart data={sortData(firstTenDays)} y="weight"/>
 
                             <ThreeColumnListItem 
                                 bold

@@ -5,6 +5,7 @@ import { days, months, daysArr, formatFullDate, fakeData, sortData } from "../..
 import { View, Text } from 'react-native';
 
 const LineChart = ({data, y}) => {
+    console.log('Chart Data: ', data)
     return (
         <View>            
             <VictoryChart

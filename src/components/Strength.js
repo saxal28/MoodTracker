@@ -45,8 +45,12 @@ class Strength extends Component {
                 reps,
                 set
             }  
-            this.setState({completed: true})
+            this.setState({completed: true});
         }
+    }
+
+    createStrengthLog() {
+        console.log(this.state.strength)
     }
 
     renderSets() {
@@ -95,11 +99,17 @@ class Strength extends Component {
     }
 
     removeSet() {
-        const { numberOfSets } = this.state;
+        const { strength, numberOfSets, setExercise } = this.state;
         if(numberOfSets.length > 1) {
             const addedSet = numberOfSets[numberOfSets.length - 1] - 1;
-            let generatedSets = generateArrFromNumber(addedSet)
-            this.setState({numberOfSets: generatedSets});
+            let generatedSets = generateArrFromNumber(addedSet);
+            //removes last set from arr state when removed
+            const adjustedArr = strength[setExercise].splice(strength[setExercise].length - 1, 1);
+            console.log(adjustedArr);
+            // const adjustedStrength = {...strength, }
+            this.setState({
+                numberOfSets: generatedSets
+            });
         }
     }
 
@@ -110,7 +120,7 @@ class Strength extends Component {
             <Container>
                <TabbedNavbar title="Strength">
 
-                    <StyledTab heading="Log"
+                    <Tab heading="Log"
                         tabStyle={{backgroundColor:"#333"}} 
                         textStyle={{color:"white"}} 
                         activeTabStyle={{backgroundColor:"#333"}}
@@ -137,12 +147,13 @@ class Strength extends Component {
                             </Button>
 
                             <Button full success
+                                onPress={this.createStrengthLog.bind(this)}
                                 style={styles.buttonStyle}
                             ><Text>Log</Text>
                             </Button>
 
                         </Content>
-                    </StyledTab>
+                    </Tab>
 
                     <Tab 
                         heading="Stats" 

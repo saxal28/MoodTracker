@@ -105,7 +105,7 @@ class LogDailyValues extends Component {
 
     getPickerNumber(nextProps){
         const { allStats } = nextProps;
-        this.setState({generatedPickerRange: 187});
+        this.setState({generatedPickerRange: allStats[0].weight});
         console.log("generated picker numner: ", allStats[0].weight);
     }
 
@@ -113,6 +113,8 @@ class LogDailyValues extends Component {
         let min = this.state.generatedPickerRange - 10;
         let max = min + 20;
         var arr = generateSmallRange(min, max);
+
+        console.log(`Generated Picker Range: ${this.state.generatedPickerRange} min: ${min} max: ${max} state.weight: ${this.state.weight}` )
 
         return arr.map(num => {
             return (
@@ -158,7 +160,7 @@ class LogDailyValues extends Component {
 
     render() {
         const { alreadyLogged, date, todaysDate, message } = this.state;
-        const { textStyle } = styles;
+        const { textStyle, messageStyle } = styles;
         return (
             <ImageBackground imageLink={require("../assets/graphWallpaper.png")}>
                 <Navbar title={alreadyLogged ? "Edit!" : "Log!"}  disableMenuButton={!alreadyLogged} transparent />
@@ -168,7 +170,7 @@ class LogDailyValues extends Component {
                         <Title style={textStyle}>{date ? formatDisplayDate(date) : formatDisplayDate(todaysDate)}</Title>
                         {this.renderEmotionIcon()}
                         <Title style={textStyle}>{`${this.state.weight} lbs`}</Title>
-                        <Text style={textStyle}>{ message }</Text>
+                        <Text style={messageStyle}>{ message }</Text>
                     </CardSection>
 
                     <Grid>
@@ -241,6 +243,11 @@ const styles = {
     textStyle: {
         color: 'white',
         backgroundColor: "transparent"
+    },
+    messageStyle: {
+        color:'white', 
+        backgroundColor:"rgba(0,0,0,0.5)", 
+        padding: 10,
     }
 }
 
